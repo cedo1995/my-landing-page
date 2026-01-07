@@ -2,37 +2,33 @@
   <div class="success-page">
     <header>
       <nav class="container">
-        <a href="/" class="logo">₿ Bitcoin Developer</a>
+        <a href="/" class="logo">{{ t('success.nav.logo') }}</a>
       </nav>
     </header>
 
     <div class="container success-content">
       <div class="success-card">
         <div class="success-icon">✓</div>
-        <h1>Payment Successful!</h1>
+        <h1>{{ t('success.title') }}</h1>
         <p class="success-message">
-          Thank you for booking a consultation. Your payment has been processed successfully.
+          {{ t('success.message') }}
         </p>
-        
+
         <div class="next-steps">
-          <h2>Next Steps:</h2>
+          <h2>{{ t('success.nextSteps.title') }}</h2>
           <ol>
-            <li>Check your email for the payment confirmation</li>
-            <li>Click the button below to schedule your consultation time</li>
-            <li>You'll receive a calendar invitation with the meeting details</li>
+            <li v-for="(item, idx) in nextSteps" :key="idx">
+              {{ item }}
+            </li>
           </ol>
         </div>
 
         <div class="button-group">
-          <a 
-            :href="calendlyUrl" 
-            target="_blank"
-            class="cta-button"
-          >
-            Schedule Your Session
+          <a :href="calendlyUrl" target="_blank" class="cta-button">
+            {{ t('success.buttons.schedule') }}
           </a>
           <a href="/" class="secondary-button">
-            Back to Home
+            {{ t('success.buttons.backHome') }}
           </a>
         </div>
       </div>
@@ -43,21 +39,27 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+const { t, tm } = useI18n()
 const config = useRuntimeConfig()
 const route = useRoute()
 
 const calendlyUrl = computed(() => {
   const baseUrl = config.public.calendlyUrl || 'https://calendly.com'
   const duration = route.query.duration
-  
-  // In production, you might have different Calendly event types for different durations
+
   if (duration === '30min') {
     return `${baseUrl}/30min-consultation`
   } else if (duration === '60min') {
     return `${baseUrl}/60min-consultation`
   }
-  
+
   return baseUrl
+})
+
+// `tm` restituisce tipi non stringa (es. array), quindi lo convertiamo in array di stringhe
+const nextSteps = computed(() => {
+  const value = t('success.nextSteps.items')
+  return Array.isArray(value) ? value.map(String) : []
 })
 </script>
 

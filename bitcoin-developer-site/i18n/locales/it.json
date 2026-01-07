@@ -1,0 +1,107 @@
+{
+  "seo": {
+    "title": "Roberto Cedolin - Sviluppo Software & Educazione su Bitcoin",
+    "description": "Sviluppatore software con una forte passione per la tecnologia Bitcoin. Creo contenuti e offro formazione per aiutare le persone a comprendere Bitcoin e il suo potenziale."
+  },
+  "nav": {
+    "logo": "₿ Roberto Cedolin",
+    "about": "Chi sono",
+    "consultations": "Consulenze",
+    "contact": "Contatti"
+  },
+  "hero": {
+    "title": "Sviluppo Software & Educazione su Bitcoin",
+    "subtitle": "Software Engineer | Appassionato di Bitcoin | Content Creator",
+    "description": "Sviluppatore software con una forte passione per la tecnologia Bitcoin.\nCreo contenuti e offro formazione per aiutare le persone a comprendere Bitcoin e il suo potenziale.",
+    "cta": "Prenota una consulenza"
+  },
+  "about": {
+    "title": "Chi sono",
+    "text": "Sono uno sviluppatore software con una forte passione per la tecnologia Bitcoin. Grazie alla mia esperienza in ingegneria del software, ho maturato un profondo apprezzamento per l’approccio innovativo di Bitcoin al denaro e alla decentralizzazione.",
+    "content": "Come content creator ed educatore, la mia missione è rendere Bitcoin più chiaro e accessibile a tutti. Creo contenuti formativi su più piattaforme per aiutare le persone a comprendere i fondamenti di Bitcoin, la tecnologia che lo sostiene e il suo potenziale di trasformare il sistema finanziario.",
+    "you": "Che tu sia un principiante che vuole capire le basi, una persona curiosa della tecnologia dietro Bitcoin, o qualcuno che sta esplorando come Bitcoin si inserisce nel panorama finanziario più ampio, sono qui per accompagnarti nel tuo percorso di apprendimento.",
+    "skills": {
+      "softwareDevelopment": "Sviluppo software",
+      "bitcoinEducation": "Educazione su Bitcoin",
+      "contentCreation": "Creazione contenuti",
+      "technicalEducation": "Formazione tecnica",
+      "bitcoinFundamentals": "Fondamenti di Bitcoin",
+      "blockchainTechnology": "Tecnologia blockchain",
+      "financialTechnology": "Tecnologie finanziarie"
+    }
+  },
+  "consultations": {
+    "title": "Prenota una consulenza",
+    "subtitle": "Ricevi un supporto personalizzato per formazione su Bitcoin, percorsi di studio e comprensione della tecnologia",
+    "cards": {
+      "quick": {
+        "title": "Sessione rapida",
+        "duration": "30 minuti",
+        "price": "€40",
+        "features": {
+          "f1": "Fondamenti di Bitcoin",
+          "f2": "Domande rapide",
+          "f3": "Orientamento nello studio",
+          "f4": "Risorse educative"
+        },
+        "button": {
+          "default": "Prenota sessione da 30 min",
+          "processing": "Elaborazione..."
+        }
+      },
+      "deep": {
+        "title": "Approfondimento",
+        "duration": "60 minuti",
+        "price": "€70",
+        "features": {
+          "f1": "Formazione su Bitcoin approfondita",
+          "f2": "Piano di apprendimento completo",
+          "f3": "Approfondimento tecnico",
+          "f4": "Casi d’uso e strategia Bitcoin",
+          "f5": "Buone pratiche e basi di sicurezza"
+        },
+        "button": {
+          "default": "Prenota sessione da 60 min",
+          "processing": "Elaborazione..."
+        }
+      }
+    },
+    "whatToExpect": {
+      "title": "Cosa aspettarsi:",
+      "text": "Dopo il pagamento verrai reindirizzato a Calendly per programmare la consulenza. Le sessioni si svolgono in videochiamata e riceverai un’email di conferma con tutti i dettagli."
+    }
+  },
+  "footer": {
+    "rights": "© 2026 Roberto Cedolin - Software Developer & Educatore Bitcoin. Tutti i diritti riservati.",
+    "social": {
+      "x": "X (Twitter)",
+      "linkedin": "LinkedIn",
+      "youtube": "YouTube",
+      "instagram": "Instagram",
+      "tiktok": "TikTok"
+    }
+  },
+  "errors": {
+    "invalidConsultation": "Tipo di consulenza non valido. Riprova.",
+    "generic": "Si è verificato un errore. Riprova o contatta il supporto."
+  },
+  "success": {
+    "nav": {
+      "logo": "₿ Bitcoin Developer"
+    },
+    "title": "Pagamento completato con successo!",
+    "message": "Grazie per aver prenotato una consulenza. Il tuo pagamento è stato elaborato correttamente.",
+    "nextSteps": {
+      "title": "Prossimi passi:",
+      "items": [
+        "Controlla la tua email per la conferma di pagamento",
+        "Clicca il pulsante qui sotto per programmare l’orario della consulenza",
+        "Riceverai un invito a calendario con i dettagli della riunione"
+      ]
+    },
+    "buttons": {
+      "schedule": "Programma la sessione",
+      "backHome": "Torna alla home"
+    }
+  }
+}

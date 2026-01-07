@@ -1,0 +1,107 @@
+{
+  "seo": {
+    "title": "Roberto Cedolin - Software Development & Bitcoin Education",
+    "description": "Software developer with a strong passion for Bitcoin technology. I create content and offer training to help people understand Bitcoin and its potential."
+  },
+  "nav": {
+    "logo": "₿ Roberto Cedolin",
+    "about": "About",
+    "consultations": "Consultations",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Software Development & Bitcoin Education",
+    "subtitle": "Software Engineer | Bitcoin Enthusiast | Content Creator",
+    "description": "Passionate software developer with a deep interest in Bitcoin technology.\nI create content and provide education to help people understand Bitcoin and its potential.",
+    "cta": "Book a Consultation"
+  },
+  "about": {
+    "title": "About Me",
+    "text": "I'm a passionate software developer with a strong interest in Bitcoin technology. Through my experience in software engineering, I've developed a deep appreciation for Bitcoin's innovative approach to money and decentralization.",
+    "content": "As a content creator and educator, my mission is to demystify Bitcoin and make it accessible to everyone. I create educational content across multiple platforms to help people understand Bitcoin's fundamentals, its technology, and its potential to transform the financial system.",
+    "you": "Whether you're a beginner looking to understand Bitcoin basics, someone curious about the technology behind it, or exploring how Bitcoin fits into the broader financial landscape, I'm here to help you on your Bitcoin learning journey.",
+    "skills": {
+      "softwareDevelopment": "Software Development",
+      "bitcoinEducation": "Bitcoin Education",
+      "contentCreation": "Content Creation",
+      "technicalEducation": "Technical Education",
+      "bitcoinFundamentals": "Bitcoin Fundamentals",
+      "blockchainTechnology": "Blockchain Technology",
+      "financialTechnology": "Financial Technology"
+    }
+  },
+  "consultations": {
+    "title": "Book a Consultation",
+    "subtitle": "Get personalized guidance on Bitcoin education, learning paths, and understanding the technology",
+    "cards": {
+      "quick": {
+        "title": "Quick Session",
+        "duration": "30 minutes",
+        "price": "€40",
+        "features": {
+          "f1": "Bitcoin fundamentals",
+          "f2": "Quick questions",
+          "f3": "Learning guidance",
+          "f4": "Educational resources"
+        },
+        "button": {
+          "default": "Book 30min Session",
+          "processing": "Processing..."
+        }
+      },
+      "deep": {
+        "title": "Deep Dive",
+        "duration": "60 minutes",
+        "price": "€70",
+        "features": {
+          "f1": "In-depth Bitcoin education",
+          "f2": "Comprehensive learning plan",
+          "f3": "Technology deep dive",
+          "f4": "Bitcoin use cases & strategy",
+          "f5": "Best practices & security basics"
+        },
+        "button": {
+          "default": "Book 60min Session",
+          "processing": "Processing..."
+        }
+      }
+    },
+    "whatToExpect": {
+      "title": "What to expect:",
+      "text": "After payment, you'll be redirected to schedule your consultation via Calendly. Sessions are conducted via video call, and you'll receive a confirmation email with all the details."
+    }
+  },
+  "footer": {
+    "rights": "© 2026 Roberto Cedolin - Software Developer & Bitcoin Educator. All rights reserved.",
+    "social": {
+      "x": "X (Twitter)",
+      "linkedin": "LinkedIn",
+      "youtube": "YouTube",
+      "instagram": "Instagram",
+      "tiktok": "TikTok"
+    }
+  },
+  "errors": {
+    "invalidConsultation": "Invalid consultation type. Please try again.",
+    "generic": "An error occurred. Please try again or contact support."
+  },
+  "success": {
+    "nav": {
+      "logo": "₿ Bitcoin Developer"
+    },
+    "title": "Payment Successful!",
+    "message": "Thank you for booking a consultation. Your payment has been processed successfully.",
+    "nextSteps": {
+      "title": "Next Steps:",
+      "items": [
+        "Check your email for the payment confirmation",
+        "Click the button below to schedule your consultation time",
+        "You'll receive a calendar invitation with the meeting details"
+      ]
+    },
+    "buttons": {
+      "schedule": "Schedule Your Session",
+      "backHome": "Back to Home"
+    }
+  }
+}
