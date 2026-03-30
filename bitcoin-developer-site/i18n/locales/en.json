@@ -79,7 +79,148 @@
       "youtube": "YouTube",
       "instagram": "Instagram",
       "tiktok": "TikTok"
+    },
+    "legal": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
     }
+  },
+  "courses": {
+    "nav": "Courses",
+    "sectionTitle": "Courses",
+    "sectionSubtitle": "Learn Bitcoin from the ground up with practical, up-to-date courses",
+    "listingTitle": "All Courses",
+    "listingSubtitle": "Bitcoin learning paths for every level",
+    "modules": "modules",
+    "buyButton": "Buy Course",
+    "viewDetails": "View Course",
+    "backToList": "← All Courses",
+    "detail": {
+      "price": "€400",
+      "whatYouLearn": "What you'll learn",
+      "module": "Module",
+      "paymentTitle": "Choose your payment method",
+      "orPayWith": "or pay with card",
+      "duration": "~10 hours total",
+      "format": "Format",
+      "formatValue": "Live 1-on-1 sessions via video call",
+      "level": "Level",
+      "levelValue": "Beginner — no prior knowledge required",
+      "includes": "What's included",
+      "includesList": {
+        "0": "5 modules, ~2 hours each",
+        "1": "Live sessions with Roberto via video call",
+        "2": "Slides and reference materials for each module",
+        "3": "Personal Q&A throughout the course",
+        "4": "Access to recordings after each session"
+      },
+      "forWho": "Who is this course for?",
+      "forWhoList": {
+        "0": "Complete beginners curious about Bitcoin",
+        "1": "People who have heard about Bitcoin but want to truly understand it",
+        "2": "Anyone who wants a solid foundation before buying or using Bitcoin",
+        "3": "Professionals who want to understand Bitcoin for strategic or investment reasons"
+      }
+    },
+    "introduzioneBitcoin": {
+      "title": "Introduction to Bitcoin",
+      "description": "A complete journey through Bitcoin: from history and philosophy to practical use, security, and legal aspects. Perfect for beginners who want a solid, self-sovereign understanding.",
+      "modules": {
+        "m1": {
+          "title": "Introduction to Bitcoin",
+          "description": "History, philosophy, financial sovereignty and why it matters."
+        },
+        "m2": {
+          "title": "How the Blockchain Works",
+          "description": "Nodes, transactions, cryptography and decentralization."
+        },
+        "m3": {
+          "title": "Mining and Consensus",
+          "description": "Proof of Work, halving, monetary policy and security."
+        },
+        "m4": {
+          "title": "Wallets and Security",
+          "description": "Hot/cold wallets, seed phrase, backup and best practices."
+        },
+        "m5": {
+          "title": "Buy, Sell, Use",
+          "description": "Exchanges, P2P, fees, basic taxation and legal aspects."
+        }
+      }
+    }
+  },
+  "bitcoinPayment": {
+    "title": "Pay with Bitcoin",
+    "subtitle": "Scan the QR code with your Bitcoin wallet — the BTC amount is calculated at the current exchange rate.",
+    "amount": "Amount",
+    "priceLoading": "Fetching BTC price...",
+    "priceError": "Price unavailable — QR shows address only",
+    "qrGenerating": "Generating QR code...",
+    "qrPlaceholderText": "QR code coming soon",
+    "refreshPrice": "Refresh price",
+    "addressLabel": "Bitcoin Address",
+    "copyAddress": "Click to copy",
+    "copied": "Copied!",
+    "bip21Label": "BIP-21 URI (scan with compatible wallet)",
+    "rateUpdated": "updated at",
+    "tabOnchain": "On-chain",
+    "tabLightning": "Lightning",
+    "lightning": {
+      "subTabLnAddress": "Lightning Address",
+      "subTabBolt11": "BOLT11 Invoice",
+      "subTabBolt12": "BOLT12 Offer",
+      "addressLabel": "Lightning Address",
+      "bolt12Label": "BOLT12 Offer (reusable)",
+      "bolt12Info": "BOLT12 is a reusable offer — your wallet generates a unique invoice automatically each time. Compatible with Phoenix ≥ 3.0, Zeus, Mutiny.",
+      "bolt12Unavailable": "No BOLT12 offer configured.",
+      "bolt11Label": "BOLT11 Invoice (static)",
+      "bolt11Warning": "This invoice is static and may expire. For future payments use Lightning Address or BOLT12.",
+      "invoiceLabel": "Invoice (BOLT11)",
+      "fetchingInvoice": "Generating Lightning invoice...",
+      "invoiceError": "Could not generate invoice. Please try again.",
+      "invoiceErrorDetail": "The Lightning server is currently unreachable.",
+      "retryInvoice": "Retry",
+      "copyInvoice": "Copy invoice",
+      "copyValue": "Copy",
+      "copied": "Copied!",
+      "invoiceCopied": "Invoice copied!",
+      "expires": "Expires in",
+      "seconds": "seconds",
+      "expired": "Invoice expired — click Retry",
+      "instructions": {
+        "title": "How to pay with Lightning:",
+        "step1": "Choose your preferred method from the three tabs above",
+        "step2": "Scan the QR code with a Lightning wallet (Phoenix, Muun, Breez, Zeus, etc.)",
+        "step3": "Payment is instant — confirmed in seconds",
+        "step4": "Fill in the form below with your details after payment"
+      }
+    },
+    "instructions": {
+      "title": "How to pay on-chain:",
+      "step1": "Scan the QR code with your Bitcoin wallet — the correct amount is already included",
+      "step2": "Or copy the address and enter the BTC amount manually",
+      "step3": "Send the transaction and fill in the form below with your details",
+      "step4": "You will be contacted within 24 hours to confirm and grant access"
+    },
+    "form": {
+      "title": "Confirm Payment",
+      "name": "Full Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "your email address",
+      "note": "Note (optional)",
+      "notePlaceholder": "Transaction ID, message or other info",
+      "submit": "Send Confirmation",
+      "nameRequired": "Name is required",
+      "emailRequired": "Email is required"
+    }
+  },
+  "stripePayment": {
+    "label": "Pay by card",
+    "button": "Pay with card",
+    "processing": "Redirecting...",
+    "error": "An error occurred. Please try again.",
+    "note": "Secure payment via Stripe. You will be redirected to complete the purchase."
   },
   "errors": {
     "invalidConsultation": "Invalid consultation type. Please try again.",
@@ -91,17 +232,98 @@
     },
     "title": "Payment Successful!",
     "message": "Thank you for booking a consultation. Your payment has been processed successfully.",
+    "messageCourse": "Thank you for purchasing the course. Your payment has been processed successfully.",
     "nextSteps": {
       "title": "Next Steps:",
-      "items": [
-        "Check your email for the payment confirmation",
-        "Click the button below to schedule your consultation time",
-        "You'll receive a calendar invitation with the meeting details"
-      ]
+      "items": {
+        "0": "Check your email for the payment confirmation",
+        "1": "Click the button below to schedule your consultation time",
+        "2": "You'll receive a calendar invitation with the meeting details"
+      },
+      "itemsCourse": {
+        "0": "Check your email for the payment confirmation",
+        "1": "You will be contacted within 24 hours with access details",
+        "2": "The course will begin at the agreed date and time"
+      }
     },
     "buttons": {
       "schedule": "Schedule Your Session",
       "backHome": "Back to Home"
+    }
+  },
+  "legal": {
+    "lastUpdated": "Last updated",
+    "backHome": "Back to Home"
+  },
+  "privacy": {
+    "owner": {
+      "title": "Data Controller",
+      "text": "Roberto Cedolin, based in Italy. Contact: roberto.cedo{'@'}gmail.com"
+    },
+    "dataCollected": {
+      "title": "Data Collected",
+      "text": "We collect the following personal data when you use our services:",
+      "items": [
+        "Name and email address (via payment confirmation form)",
+        "Payment data processed by Stripe (we do not store card details)",
+        "Language preference (saved in a browser cookie)",
+        "IP address and browser data (standard server logs)"
+      ]
+    },
+    "purpose": {
+      "title": "Purpose of Processing",
+      "text": "Personal data is used exclusively to: deliver the purchased service (consultation or course), send payment confirmations, schedule consultations via Calendly, and respond to support requests. Data is never sold or shared with third parties for marketing purposes."
+    },
+    "thirdParties": {
+      "title": "Third-Party Services",
+      "text": "We use the following third-party services: Stripe (payment processing, Privacy Policy at stripe.com/privacy), Calendly (scheduling, Privacy Policy at calendly.com/privacy), Wallet of Satoshi (Lightning payments). Each service processes data according to its own privacy policy."
+    },
+    "retention": {
+      "title": "Data Retention",
+      "text": "Personal data is retained for the time necessary to deliver the service and comply with legal obligations (typically 10 years for invoicing purposes under Italian law). You may request deletion of your data at any time."
+    },
+    "rights": {
+      "title": "Your Rights (GDPR)",
+      "text": "Under the GDPR you have the right to: access your personal data, request correction or deletion, object to processing, request data portability, and lodge a complaint with the Italian Data Protection Authority (Garante della Privacy). To exercise these rights, contact us at roberto.cedo{'@'}gmail.com."
+    },
+    "contact": {
+      "title": "Contact",
+      "text": "For any privacy-related questions: roberto.cedo{'@'}gmail.com"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "services": {
+      "title": "Services Offered",
+      "text": "Roberto Cedolin offers Bitcoin education consultations (30-minute sessions at €40) and online courses (\"Introduction to Bitcoin\" at €400). Services are delivered remotely via video call or digital content."
+    },
+    "payments": {
+      "title": "Payments",
+      "text": "Payments are accepted via credit/debit card (Stripe) or Bitcoin (on-chain and Lightning Network). Prices are inclusive of VAT where applicable. Payment must be completed before the service is delivered."
+    },
+    "refunds": {
+      "title": "Refund Policy",
+      "text": "Consultations: a full refund is available if cancelled at least 24 hours before the scheduled session. No refund is issued for cancellations made less than 24 hours in advance or for no-shows. Courses: a full refund is available if requested before the first session takes place. Once the first session has been delivered, no refund will be issued."
+    },
+    "delivery": {
+      "title": "Service Delivery",
+      "text": "Consultations are delivered via video call (Google Meet or similar) at the time agreed via Calendly. Course access details are sent by email within 24 hours of confirmed payment. Roberto Cedolin reserves the right to reschedule consultations with 24 hours' notice."
+    },
+    "intellectual": {
+      "title": "Intellectual Property",
+      "text": "All course content, materials, and recordings are the exclusive property of Roberto Cedolin. Purchasers receive a personal, non-transferable licence for their own educational use. Reproduction, redistribution, or resale of course content is strictly prohibited."
+    },
+    "liability": {
+      "title": "Limitation of Liability",
+      "text": "The educational content provided is for informational purposes only and does not constitute financial or investment advice. Roberto Cedolin is not liable for any financial decisions made based on the content of consultations or courses."
+    },
+    "law": {
+      "title": "Governing Law",
+      "text": "These terms are governed by Italian law. Any disputes shall be subject to the exclusive jurisdiction of the courts of Italy."
+    },
+    "contact": {
+      "title": "Contact",
+      "text": "For any questions regarding these terms: roberto.cedo{'@'}gmail.com"
     }
   }
 }

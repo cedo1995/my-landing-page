@@ -1,16 +1,54 @@
+import Stripe from 'stripe'
+
+const PRODUCTS: Record<string, { name: string; description: string }> = {
+  'consultation-30min': {
+    name: 'Consulenza Bitcoin - 30 minuti',
+    description: 'Sessione esperta su Bitcoin: wallet, nodi, privacy. Durata: 30 minuti.',
+  },
+  'consultation-60min': {
+    name: 'Consulenza Bitcoin - 60 minuti',
+    description: 'Sessione esperta su Bitcoin: wallet, nodi, privacy. Durata: 60 minuti.',
+  },
+  'course-introduzione-bitcoin': {
+    name: 'Corso: Introduzione a Bitcoin',
+    description: 'Percorso completo su Bitcoin: storia, blockchain, mining, wallet, uso pratico. 5 moduli.',
+  },
+}
+
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const { duration, price } = body
+  const { type, slug, duration, price } = body as {
+    type: 'consultation' | 'course'
+    slug?: string       // per i corsi: es. 'introduzione-bitcoin'
+    duration?: string   // per le consulenze: es. '30min'
+    price: number       // importo in EUR
+  }
 
-  // In production, you would:
-  // 1. Import and initialize Stripe with your secret key
-  // 2. Create a checkout session
-  // 3. Return the session URL
-  
-  // Example implementation (uncomment and configure in production):
-  /*
-  const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
-  
+  if (!type || !price) {
+    throw createError({ statusCode: 400, message: 'Missing type or price' })
+  }
+
+  // Determina la chiave prodotto
+  const productKey = type === 'course'
+    ? `course-${slug}`
+    : `consultation-${duration}`
+
+  const product = PRODUCTS[productKey]
+  if (!product) {
+    throw createError({ statusCode: 400, message: `Unknown product: ${productKey}` })
+  }
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+
+  // success_url diversa per corso vs consulenza
+  const successPath = type === 'course'
+    ? `/success?type=course&slug=${slug}&session_id={CHECKOUT_SESSION_ID}`
+    : `/success?type=consultation&duration=${duration}&session_id={CHECKOUT_SESSION_ID}`
+
+  const cancelPath = type === 'course'
+    ? `/courses/${slug}`
+    : `/#consultations`
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     line_items: [
@@ -18,29 +56,24 @@ export default defineEventHandler(async (event) => {
         price_data: {
           currency: 'eur',
           product_data: {
-            name: `Bitcoin Consultation - ${duration}`,
-            description: `${duration === '30min' ? '30 minutes' : '60 minutes'} consultation session`,
+            name: product.name,
+            description: product.description,
           },
-          unit_amount: price * 100, // Convert to cents
+          unit_amount: Math.round(price * 100), // EUR → centesimi
         },
         quantity: 1,
       },
     ],
     mode: 'payment',
-    success_url: `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}&duration=${duration}`,
-    cancel_url: `${process.env.BASE_URL}/#consultations`,
+    success_url: `${process.env.NUXT_PUBLIC_BASE_URL}${successPath}`,
+    cancel_url: `${process.env.NUXT_PUBLIC_BASE_URL}${cancelPath}`,
     metadata: {
-      duration,
+      type,
+      slug: slug ?? '',
+      duration: duration ?? '',
+      price: String(price),
     },
   })
 
-  return {
-    url: session.url
-  }
-  */
-
-  // Mock response for development
-  return {
-    url: '/success?mock=true&duration=' + duration
-  }
+  return { url: session.url }
 })

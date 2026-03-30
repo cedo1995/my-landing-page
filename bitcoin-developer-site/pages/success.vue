@@ -11,7 +11,7 @@
         <div class="success-icon">✓</div>
         <h1>{{ t('success.title') }}</h1>
         <p class="success-message">
-          {{ t('success.message') }}
+          {{ isCourse ? t('success.messageCourse') : t('success.message') }}
         </p>
 
         <div class="next-steps">
@@ -24,7 +24,7 @@
         </div>
 
         <div class="button-group">
-          <a :href="calendlyUrl" target="_blank" class="cta-button">
+          <a v-if="!isCourse" :href="calendlyUrl" target="_blank" class="cta-button">
             {{ t('success.buttons.schedule') }}
           </a>
           <a href="/" class="secondary-button">
@@ -43,6 +43,8 @@ const { t, tm } = useI18n()
 const config = useRuntimeConfig()
 const route = useRoute()
 
+const isCourse = computed(() => route.query.type === 'course')
+
 const calendlyUrl = computed(() => {
   const baseUrl = config.public.calendlyUrl || 'https://calendly.com'
   const duration = route.query.duration
@@ -56,9 +58,10 @@ const calendlyUrl = computed(() => {
   return baseUrl
 })
 
-// `tm` restituisce tipi non stringa (es. array), quindi lo convertiamo in array di stringhe
+// tm() restituisce il valore raw (array/oggetto), t() restituisce sempre una stringa
 const nextSteps = computed(() => {
-  const value = t('success.nextSteps.items')
+  const key = isCourse.value ? 'success.nextSteps.itemsCourse' : 'success.nextSteps.items'
+  const value = tm(key)
   return Array.isArray(value) ? value.map(String) : []
 })
 </script>
