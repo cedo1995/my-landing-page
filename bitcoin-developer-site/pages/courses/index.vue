@@ -47,7 +47,7 @@
           <div class="social-links">
             <a href="https://x.com/CedolinRoberto" target="_blank" rel="noopener noreferrer">{{ $t('footer.social.x') }}</a>
             <a href="https://www.linkedin.com/in/roberto-cedolin/" target="_blank" rel="noopener noreferrer">{{ $t('footer.social.linkedin') }}</a>
-            <a href="https://www.youtube.com/@robertocedolin" target="_blank" rel="noopener noreferrer">{{ $t('footer.social.youtube') }}</a>
+            <a href="https://www.youtube.com/@roberto_cedolin" target="_blank" rel="noopener noreferrer">{{ $t('footer.social.youtube') }}</a>
             <a href="https://www.instagram.com/roberto_cedolin/" target="_blank" rel="noopener noreferrer">{{ $t('footer.social.instagram') }}</a>
             <a href="https://www.tiktok.com/@roberto_cedolin" target="_blank" rel="noopener noreferrer">{{ $t('footer.social.tiktok') }}</a>
           </div>

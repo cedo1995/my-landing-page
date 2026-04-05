@@ -8,6 +8,28 @@ html {
   overflow-x: hidden;
 }
 
+:root {
+  --bitcoin-orange: #f7931a;
+  --dark-bg: #1a1a1a;
+  --light-bg: #ffffff;
+  --text-dark: #333333;
+  --text-light: #ffffff;
+  --gray: #666666;
+  --light-gray: #f5f5f5;
+  --border-color: #e0e0e0;
+  /* Typography scale */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-bold: 700;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   line-height: 1.6;
@@ -18,30 +40,6 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-:root {
-  --bitcoin-orange: #f7931a;
-  --dark-bg: #1a1a1a;
-  --light-bg: #ffffff;
-  --text-dark: #333333;
-  --text-light: #ffffff;
-  --gray: #666666;
-  --light-gray: #f5f5f5;
-  --border-color: #e0e0e0;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  line-height: 1.6;
-  color: var(--text-dark);
-  background-color: var(--light-bg);
-}
-
-.container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
@@ -134,6 +132,18 @@ nav {
   box-shadow: 0 10px 20px rgba(247, 147, 26, 0.3);
 }
 
+.cta-button--secondary {
+  background-color: transparent;
+  color: var(--bitcoin-orange);
+  border: 2px solid var(--bitcoin-orange);
+}
+
+.cta-button--secondary:hover {
+  background-color: rgba(247, 147, 26, 0.08);
+  box-shadow: none;
+  transform: translateY(-2px);
+}
+
 /* About Section */
 .about {
   padding: 5rem 0;
@@ -158,6 +168,23 @@ nav {
   margin-bottom: 1.5rem;
   font-size: 1.1rem;
   line-height: 1.8;
+}
+
+.about-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-photo {
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 4px solid var(--bitcoin-orange);
+  box-shadow: 0 8px 32px rgba(247, 147, 26, 0.25);
+  display: block;
 }
 
 .skills {
@@ -199,7 +226,7 @@ nav {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -219,7 +246,7 @@ nav {
 
 .pricing-card.featured {
   border: 3px solid var(--bitcoin-orange);
-  transform: scale(1.05);
+  box-shadow: 0 8px 32px rgba(247, 147, 26, 0.18);
 }
 
 .pricing-card h3 {
@@ -233,6 +260,14 @@ nav {
   font-weight: bold;
   color: var(--bitcoin-orange);
   margin: 1rem 0;
+}
+
+.price-original {
+  font-size: 1.4rem;
+  font-weight: normal;
+  color: var(--gray);
+  margin-left: 0.5rem;
+  text-decoration: line-through;
 }
 
 .duration {
@@ -352,29 +387,71 @@ footer {
     gap: 1rem;
   }
 
+  .hero {
+    padding: 3rem 0;
+  }
+
   .hero h1 {
     font-size: 2rem;
+    line-height: 1.3;
   }
 
   .hero .subtitle {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .about h2,
+  .consultations h2,
+  .courses-home h2 {
+    font-size: 1.8rem;
   }
 
   .about-content {
     grid-template-columns: 1fr;
   }
 
+  .about-image {
+    order: -1;
+  }
+
+  .profile-photo {
+    width: 220px;
+    height: 220px;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+  }
+
   .pricing-cards {
     grid-template-columns: 1fr;
   }
 
-  .pricing-card.featured {
-    transform: scale(1);
+  .pricing-card {
+    padding: 1.5rem;
+  }
+
+  .pricing-card h3 {
+    font-size: 1.4rem;
+  }
+
+  .price {
+    font-size: 2.2rem;
   }
 
   .footer-content {
     flex-direction: column;
     text-align: center;
+  }
+
+  .social-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
   }
 }
 
@@ -393,4 +470,63 @@ footer {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Social Proof Bar base */
+.social-proof-bar {
+  background-color: var(--light-gray);
+  padding: 2rem 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Testimonials base */
+.testimonials {
+  padding: 5rem 0;
+  background-color: var(--light-bg);
+}
+
+/* Course FAQ base */
+.course-faq {
+  margin-top: 3rem;
+}
+
+.course-faq details {
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 0;
+}
+
+.course-faq summary {
+  cursor: pointer;
+  font-weight: var(--font-medium);
+  color: var(--text-dark);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.course-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.course-faq summary::after {
+  content: '+';
+  color: var(--bitcoin-orange);
+  font-size: 1.4rem;
+  font-weight: var(--font-bold);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.course-faq details[open] summary::after {
+  content: '−';
+}
+
+.course-faq details p {
+  margin-top: 0.75rem;
+  color: var(--gray);
+  font-size: var(--text-base);
+  line-height: 1.7;
 }

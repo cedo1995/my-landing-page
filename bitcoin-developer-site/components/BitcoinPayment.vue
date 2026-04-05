@@ -69,14 +69,16 @@
         <!-- Address (copyable) + rate info -->
         <div class="bitcoin-payment__address-block">
           <p class="bitcoin-payment__address-label">{{ $t('bitcoinPayment.addressLabel') }}</p>
-          <p
+          <div
             class="bitcoin-payment__address-value"
             @click="copyText(btcAddress, 'onchainCopied')"
-            :title="$t('bitcoinPayment.copyAddress')"
           >
-            {{ btcAddress }}
-          </p>
-          <span v-if="copied.onchainCopied" class="bitcoin-payment__copied">✓ {{ $t('bitcoinPayment.copied') }}</span>
+            <span class="bitcoin-payment__address-text">{{ btcAddress }}</span>
+            <span class="bitcoin-payment__copy-icon" :class="{ 'bitcoin-payment__copy-icon--done': copied.onchainCopied }">
+              <svg v-if="!copied.onchainCopied" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+          </div>
 
           <div v-if="btcRate" class="bitcoin-payment__rate">
             1 BTC = {{ formatEur(btcRate) }} · <span class="bitcoin-payment__rate-time">{{ $t('bitcoinPayment.rateUpdated') }} {{ rateTime }}</span>
@@ -98,168 +100,60 @@
     <!-- ─── LIGHTNING TAB ─────────────────────────────────────────────────── -->
     <div v-show="activeTab === 'lightning'" class="bitcoin-payment__panel">
 
-      <!-- Lightning sub-tabs -->
-      <div class="bitcoin-payment__subtabs" role="tablist">
-        <button
-          role="tab"
-          :aria-selected="lnSubTab === 'lnaddress'"
-          :class="['bitcoin-payment__subtab', { active: lnSubTab === 'lnaddress' }]"
-          @click="setLnSubTab('lnaddress')"
-        >
-          ⚡ {{ $t('bitcoinPayment.lightning.subTabLnAddress') }}
-        </button>
-        <button
-          role="tab"
-          :aria-selected="lnSubTab === 'bolt11'"
-          :class="['bitcoin-payment__subtab', { active: lnSubTab === 'bolt11' }]"
-          @click="setLnSubTab('bolt11')"
-        >
-          {{ $t('bitcoinPayment.lightning.subTabBolt11') }}
-        </button>
-        <button
-          role="tab"
-          :aria-selected="lnSubTab === 'bolt12'"
-          :class="['bitcoin-payment__subtab', { active: lnSubTab === 'bolt12' }]"
-          @click="setLnSubTab('bolt12')"
-        >
-          {{ $t('bitcoinPayment.lightning.subTabBolt12') }}
-        </button>
-      </div>
-
-      <!-- ── LNAddress sub-panel ── -->
-      <div v-show="lnSubTab === 'lnaddress'" class="bitcoin-payment__subpanel">
+      <!-- ── LNAddress panel ── -->
+      <div class="bitcoin-payment__subpanel">
         <div class="bitcoin-payment__qr-address">
           <div class="bitcoin-payment__qr-wrap">
             <img
-              v-if="lnAddressQrUrl"
+              v-if="lnAddressQrUrl && !lnInvoiceLoading"
               :src="lnAddressQrUrl"
               class="bitcoin-payment__qr-img"
-              alt="Lightning Address QR code"
+              alt="Lightning invoice QR code"
             />
             <div v-else class="bitcoin-payment__qr-placeholder">
               <div class="bitcoin-payment__qr-inner">
                 <span class="bitcoin-payment__qr-icon">⚡</span>
-                <span class="bitcoin-payment__qr-text">{{ priceLoading ? $t('bitcoinPayment.qrGenerating') : $t('bitcoinPayment.qrPlaceholderText') }}</span>
+                <span class="bitcoin-payment__qr-text">
+                  {{ lnInvoiceLoading ? $t('bitcoinPayment.lightning.invoiceGenerating') : $t('bitcoinPayment.qrPlaceholderText') }}
+                </span>
               </div>
             </div>
+            <!-- Countdown under QR -->
+            <div
+              v-if="lnInvoicePr && !lnInvoiceLoading && lnCountdown > 0"
+              :class="['bitcoin-payment__ln-countdown', { warning: lnCountdown < 120 }]"
+            >
+              {{ $t('bitcoinPayment.lightning.invoiceExpires') }} {{ lnCountdownFormatted }}
+            </div>
+            <!-- Refresh button -->
+            <button
+              class="bitcoin-payment__refresh"
+              type="button"
+              :disabled="lnInvoiceLoading"
+              @click="fetchLnInvoice()"
+            >
+              {{ $t('bitcoinPayment.lightning.invoiceRefresh') }}
+            </button>
+            <!-- Error message -->
+            <p v-if="lnInvoiceError" class="bitcoin-payment__ln-error">
+              {{ $t('bitcoinPayment.lightning.invoiceError') }}
+            </p>
           </div>
           <div class="bitcoin-payment__address-block">
             <p class="bitcoin-payment__address-label">{{ $t('bitcoinPayment.lightning.addressLabel') }}</p>
-            <p
+            <div
               class="bitcoin-payment__address-value"
               @click="copyText(lightningAddress, 'lnAddressCopied')"
-              :title="$t('bitcoinPayment.copyAddress')"
             >
-              {{ lightningAddress }}
-            </p>
-            <span v-if="copied.lnAddressCopied" class="bitcoin-payment__copied">✓ {{ $t('bitcoinPayment.lightning.copied') }}</span>
-            <div v-if="btcRate" class="bitcoin-payment__rate">
-              1 BTC = {{ formatEur(btcRate) }} · <span class="bitcoin-payment__rate-time">{{ $t('bitcoinPayment.rateUpdated') }} {{ rateTime }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── BOLT11 sub-panel ── -->
-      <div v-show="lnSubTab === 'bolt11'" class="bitcoin-payment__subpanel">
-        <p class="bitcoin-payment__ln-info bitcoin-payment__ln-info--warn">{{ $t('bitcoinPayment.lightning.bolt11Warning') }}</p>
-        <div class="bitcoin-payment__qr-address">
-          <div class="bitcoin-payment__qr-wrap">
-            <img
-              v-if="lnInvoiceQrUrl && !lnExpired"
-              :src="lnInvoiceQrUrl"
-              class="bitcoin-payment__qr-img"
-              alt="Lightning BOLT11 invoice QR code"
-            />
-            <div v-else-if="lnLoading" class="bitcoin-payment__qr-placeholder">
-              <div class="bitcoin-payment__qr-inner">
-                <span class="bitcoin-payment__qr-icon">⚡</span>
-                <span class="bitcoin-payment__qr-text">{{ $t('bitcoinPayment.lightning.fetchingInvoice') }}</span>
-              </div>
-            </div>
-            <div v-else class="bitcoin-payment__qr-placeholder bitcoin-payment__qr-placeholder--error">
-              <div class="bitcoin-payment__qr-inner">
-                <span class="bitcoin-payment__qr-icon">⚠️</span>
-                <span class="bitcoin-payment__qr-text">{{ lnExpired ? $t('bitcoinPayment.lightning.expired') : $t('bitcoinPayment.lightning.invoiceError') }}</span>
-              </div>
-            </div>
-            <!-- Countdown -->
-            <div v-if="lnInvoiceQrUrl && !lnExpired && lnSecondsLeft !== null" class="bitcoin-payment__ln-countdown" :class="{ warning: lnSecondsLeft < 60 }">
-              {{ $t('bitcoinPayment.lightning.expires') }} {{ lnSecondsLeft }}s
-            </div>
-            <button class="bitcoin-payment__refresh" type="button" :disabled="lnLoading" @click="fetchLnInvoice">
-              ↻ {{ $t('bitcoinPayment.lightning.retryInvoice') }}
-            </button>
-          </div>
-          <div class="bitcoin-payment__address-block">
-            <p class="bitcoin-payment__address-label">{{ $t('bitcoinPayment.lightning.invoiceLabel') }}</p>
-            <p
-              v-if="lnInvoice && !lnExpired"
-              class="bitcoin-payment__address-value bitcoin-payment__address-value--small"
-              @click="copyText(lnInvoice, 'invoiceCopied')"
-              :title="$t('bitcoinPayment.lightning.copyInvoice')"
-            >
-              {{ lnInvoice.slice(0, 40) }}…
-            </p>
-            <p v-else-if="lnLoading" class="bitcoin-payment__address-value bitcoin-payment__address-value--muted">
-              {{ $t('bitcoinPayment.lightning.fetchingInvoice') }}
-            </p>
-            <p v-else class="bitcoin-payment__address-value bitcoin-payment__address-value--muted">
-              {{ lnExpired ? $t('bitcoinPayment.lightning.expired') : $t('bitcoinPayment.lightning.invoiceError') }}
-            </p>
-            <span v-if="copied.invoiceCopied" class="bitcoin-payment__copied">✓ {{ $t('bitcoinPayment.lightning.invoiceCopied') }}</span>
-            <button
-              v-if="lnInvoice && !lnExpired"
-              class="bitcoin-payment__copy-btn"
-              type="button"
-              @click="copyText(lnInvoice, 'invoiceCopied')"
-            >
-              {{ $t('bitcoinPayment.lightning.copyInvoice') }}
-            </button>
-            <div v-if="lnError" class="bitcoin-payment__ln-error">
-              {{ $t('bitcoinPayment.lightning.invoiceErrorDetail') }}
+              <span class="bitcoin-payment__address-text">{{ lightningAddress }}</span>
+              <span class="bitcoin-payment__copy-icon" :class="{ 'bitcoin-payment__copy-icon--done': copied.lnAddressCopied }">
+                <svg v-if="!copied.lnAddressCopied" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
             </div>
             <div v-if="btcRate" class="bitcoin-payment__rate">
               1 BTC = {{ formatEur(btcRate) }} · <span class="bitcoin-payment__rate-time">{{ $t('bitcoinPayment.rateUpdated') }} {{ rateTime }}</span>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── BOLT12 sub-panel ── -->
-      <div v-show="lnSubTab === 'bolt12'" class="bitcoin-payment__subpanel">
-        <p class="bitcoin-payment__ln-info">{{ $t('bitcoinPayment.lightning.bolt12Info') }}</p>
-        <div class="bitcoin-payment__qr-address">
-          <div class="bitcoin-payment__qr-wrap">
-            <img
-              v-if="bolt12QrUrl"
-              :src="bolt12QrUrl"
-              class="bitcoin-payment__qr-img"
-              alt="BOLT12 offer QR code"
-            />
-            <div v-else class="bitcoin-payment__qr-placeholder bitcoin-payment__qr-placeholder--error">
-              <div class="bitcoin-payment__qr-inner">
-                <span class="bitcoin-payment__qr-icon">⚠️</span>
-                <span class="bitcoin-payment__qr-text">{{ $t('bitcoinPayment.lightning.bolt12Unavailable') }}</span>
-              </div>
-            </div>
-          </div>
-          <div v-if="bolt12Offer" class="bitcoin-payment__address-block">
-            <p class="bitcoin-payment__address-label">{{ $t('bitcoinPayment.lightning.bolt12Label') }}</p>
-            <p
-              class="bitcoin-payment__address-value bitcoin-payment__address-value--small"
-              @click="copyText(bolt12Offer, 'bolt12Copied')"
-              :title="$t('bitcoinPayment.copyAddress')"
-            >
-              {{ bolt12Offer.slice(0, 40) }}…
-            </p>
-            <span v-if="copied.bolt12Copied" class="bitcoin-payment__copied">✓ {{ $t('bitcoinPayment.lightning.copied') }}</span>
-            <button class="bitcoin-payment__copy-btn" type="button" @click="copyText(bolt12Offer, 'bolt12Copied')">
-              {{ $t('bitcoinPayment.lightning.copyValue') }}
-            </button>
-          </div>
-          <div v-else class="bitcoin-payment__address-block">
-            <p class="bitcoin-payment__address-value bitcoin-payment__address-value--muted">{{ $t('bitcoinPayment.lightning.bolt12Unavailable') }}</p>
           </div>
         </div>
       </div>
@@ -276,20 +170,38 @@
     </div>
 
     <!-- ─── CONTACT FORM (shared) ────────────────────────────────────────── -->
-    <form class="bitcoin-payment__form" @submit.prevent="submitForm" novalidate>
+
+    <!-- Toggle button (hidden after submit) -->
+    <button
+      v-if="!submitted"
+      type="button"
+      class="bitcoin-payment__form-toggle"
+      @click="showForm = !showForm"
+    >
+      <span>{{ $t('bitcoinPayment.form.toggle') }}</span>
+      <svg
+        :class="['bitcoin-payment__form-toggle-chevron', { 'bitcoin-payment__form-toggle-chevron--open': showForm }]"
+        xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+      ><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+
+    <!-- Success message (shown after submit) -->
+    <p v-if="submitted" class="bitcoin-payment__form-success">
+      {{ $t('bitcoinPayment.form.submitted') }}
+    </p>
+
+    <form v-show="showForm" class="bitcoin-payment__form" @submit.prevent="submitForm" novalidate>
       <p class="bitcoin-payment__form-title">{{ $t('bitcoinPayment.form.title') }}</p>
 
       <div class="bitcoin-payment__field">
-        <label for="btc-name">{{ $t('bitcoinPayment.form.name') }} *</label>
+        <label for="btc-name">{{ $t('bitcoinPayment.form.name') }}</label>
         <input
           id="btc-name"
           v-model="form.name"
           type="text"
           :placeholder="$t('bitcoinPayment.form.namePlaceholder')"
-          required
-          :class="{ 'input-error': errors.name }"
         />
-        <span v-if="errors.name" class="field-error">{{ $t('bitcoinPayment.form.nameRequired') }}</span>
       </div>
 
       <div class="bitcoin-payment__field">
@@ -300,9 +212,12 @@
           type="email"
           :placeholder="$t('bitcoinPayment.form.emailPlaceholder')"
           required
-          :class="{ 'input-error': errors.email }"
+          :class="{ 'input-error': emailTouched && !isEmailValid }"
+          @blur="emailTouched = true"
         />
-        <span v-if="errors.email" class="field-error">{{ $t('bitcoinPayment.form.emailRequired') }}</span>
+        <span v-if="emailTouched && !isEmailValid" class="field-error">
+          {{ form.email.trim() ? $t('bitcoinPayment.form.emailInvalid') : $t('bitcoinPayment.form.emailRequired') }}
+        </span>
       </div>
 
       <div class="bitcoin-payment__field">
@@ -315,7 +230,9 @@
         />
       </div>
 
-      <button type="submit" class="book-button">{{ $t('bitcoinPayment.form.submit') }}</button>
+      <p class="bitcoin-payment__contact-note">{{ $t('bitcoinPayment.form.contactNote') }}</p>
+
+      <button type="submit" class="book-button" :disabled="!isEmailValid">{{ $t('bitcoinPayment.form.submit') }}</button>
     </form>
   </div>
 </template>
@@ -331,7 +248,6 @@ const props = defineProps<{
   amountEur: string
   btcAddress: string
   lightningAddress: string
-  bolt12Offer?: string
   ownerEmail: string
 }>()
 
@@ -342,19 +258,6 @@ const activeTab = ref<'onchain' | 'lightning'>('onchain')
 
 function setTab(tab: 'onchain' | 'lightning') {
   activeTab.value = tab
-  if (tab === 'lightning' && lnSubTab.value === 'bolt11' && !lnInvoice.value && !lnLoading.value) {
-    fetchLnInvoice()
-  }
-}
-
-// ─── Lightning sub-tab state ──────────────────────────────────────────────────
-const lnSubTab = ref<'lnaddress' | 'bolt11' | 'bolt12'>('lnaddress')
-
-function setLnSubTab(sub: 'lnaddress' | 'bolt11' | 'bolt12') {
-  lnSubTab.value = sub
-  if (sub === 'bolt11' && !lnInvoice.value && !lnLoading.value) {
-    fetchLnInvoice()
-  }
 }
 
 // ─── Price / on-chain state ───────────────────────────────────────────────────
@@ -364,7 +267,13 @@ const priceError = ref(false)
 const rateTime = ref('')
 const onchainQrDataUrl = ref<string | null>(null)
 const lnAddressQrUrl = ref<string | null>(null)
-const bolt12QrUrl = ref<string | null>(null)
+
+// ─── LN invoice state (BOLT11 dinamica via LNURL-pay) ────────────────────────
+const lnInvoicePr = ref<string | null>(null)
+const lnInvoiceLoading = ref(false)
+const lnInvoiceError = ref(false)
+const lnCountdown = ref(0)
+let lnCountdownTimer: ReturnType<typeof setInterval> | null = null
 
 const eurValue = computed(() => parseFloat(props.amountEur))
 
@@ -402,16 +311,12 @@ async function loadPrice() {
     rateTime.value = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     // On-chain QR: BIP-21 URI with amount pre-filled
     onchainQrDataUrl.value = await makeQr(bip21Uri.value)
-    // LN Address QR: encode the lightning address URI so wallets open it directly
+    // LN Address QR: fallback plain address (no amount — BOLT11 invoice handles that)
     lnAddressQrUrl.value = await makeQr(`lightning:${props.lightningAddress}`)
-    // BOLT12 QR
-    if (props.bolt12Offer) {
-      bolt12QrUrl.value = await makeQr(`lightning:${props.bolt12Offer.toUpperCase()}`)
-    }
   } catch (e) {
     console.error('[BitcoinPayment] price fetch error:', e)
     priceError.value = true
-    // Fall back to address-only QR
+    // Fall back to address-only QR (no amount available)
     onchainQrDataUrl.value = await makeQr(`bitcoin:${props.btcAddress}`)
     lnAddressQrUrl.value = await makeQr(`lightning:${props.lightningAddress}`)
   } finally {
@@ -419,70 +324,99 @@ async function loadPrice() {
   }
 }
 
-// ─── Lightning / BOLT11 invoice state ────────────────────────────────────────
-const lnInvoice = ref<string | null>(null)
-const lnInvoiceQrUrl = ref<string | null>(null)
-const lnLoading = ref(false)
-const lnError = ref(false)
-const lnExpired = ref(false)
-const lnSecondsLeft = ref<number | null>(null)
-let lnCountdownTimer: ReturnType<typeof setInterval> | null = null
-
-/**
- * Chiama il backend (/api/ln-invoice) che esegue il flusso LNURL-pay (LUD-16)
- * server-side e restituisce la BOLT11 invoice già impostata con l'importo corretto.
- */
-async function fetchLnInvoice() {
-  lnLoading.value = true
-  lnError.value = false
-  lnExpired.value = false
-  lnInvoice.value = null
-  lnInvoiceQrUrl.value = null
-  lnSecondsLeft.value = null
-  if (lnCountdownTimer) clearInterval(lnCountdownTimer)
-
-  try {
-    const data = await $fetch<{ pr: string; msats: number; btcRate: number }>(
-      '/api/ln-invoice',
-      {
-        method: 'POST',
-        body: {
-          lightningAddress: props.lightningAddress,
-          amountEur: parseFloat(props.amountEur),
-        },
-      }
-    )
-
-    // Aggiorna il rate anche nel componente se non era ancora disponibile
-    if (!btcRate.value) {
-      btcRate.value = data.btcRate
-      rateTime.value = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    }
-
-    lnInvoice.value = data.pr
-    lnInvoiceQrUrl.value = await makeQr(`lightning:${data.pr.toUpperCase()}`)
-
-    lnSecondsLeft.value = 600
-    startCountdown()
-  } catch (e) {
-    console.error('[BitcoinPayment] Lightning invoice error:', e)
-    lnError.value = true
-  } finally {
-    lnLoading.value = false
+// ─── LNURL-pay / BOLT11 invoice (client-side) ────────────────────────────────
+function clearLnCountdown() {
+  if (lnCountdownTimer !== null) {
+    clearInterval(lnCountdownTimer)
+    lnCountdownTimer = null
   }
 }
 
-function startCountdown() {
+function startLnCountdown() {
+  clearLnCountdown()
+  lnCountdown.value = 600 // 10 minutes
   lnCountdownTimer = setInterval(() => {
-    if (lnSecondsLeft.value === null) return
-    lnSecondsLeft.value--
-    if (lnSecondsLeft.value <= 0) {
-      lnExpired.value = true
-      lnSecondsLeft.value = null
-      if (lnCountdownTimer) clearInterval(lnCountdownTimer)
+    lnCountdown.value--
+    if (lnCountdown.value <= 0) {
+      clearLnCountdown()
+      fetchLnInvoice() // auto-refresh when expired
     }
   }, 1000)
 }
+
+const lnCountdownFormatted = computed(() => {
+  const m = Math.floor(lnCountdown.value / 60).toString().padStart(2, '0')
+  const s = (lnCountdown.value % 60).toString().padStart(2, '0')
+  return `${m}:${s}`
+})
+
+async function fetchLnInvoice() {
+  // Wait for price if not yet available
+  if (!btcRate.value) {
+    if (!priceLoading.value) await loadPrice()
+    if (!btcRate.value) {
+      lnInvoiceError.value = true
+      return
+    }
+  }
+
+  lnInvoiceLoading.value = true
+  lnInvoiceError.value = false
+  lnInvoicePr.value = null
+  clearLnCountdown()
+
+  try {
+    const msats = Math.round((eurValue.value / btcRate.value!) * 1e8) * 1000
+
+    // 1. LNURL-pay metadata
+    const parts = props.lightningAddress.split('@')
+    if (parts.length !== 2) throw new Error('Invalid Lightning Address')
+    const [username, domain] = parts
+    const meta = await $fetch<{
+      callback: string
+      minSendable: number
+      maxSendable: number
+      tag: string
+      status?: string
+      reason?: string
+    }>(`https://${domain}/.well-known/lnurlp/${username}`)
+
+    if (meta.status === 'ERROR') throw new Error(meta.reason ?? 'LNURL error')
+    if (meta.tag !== 'payRequest') throw new Error('Not a LNURL-pay endpoint')
+    if (msats < meta.minSendable || msats > meta.maxSendable) {
+      throw new Error(`Amount ${msats} msat out of range [${meta.minSendable}, ${meta.maxSendable}]`)
+    }
+
+    // 2. Request invoice
+    const sep = meta.callback.includes('?') ? '&' : '?'
+    const invoiceData = await $fetch<{ pr?: string; status?: string; reason?: string }>(
+      `${meta.callback}${sep}amount=${msats}`
+    )
+    if (invoiceData.status === 'ERROR') throw new Error(invoiceData.reason ?? 'Invoice error')
+    if (!invoiceData.pr) throw new Error('No payment request in response')
+
+    lnInvoicePr.value = invoiceData.pr
+    // Generate QR from the BOLT11 payment request
+    lnAddressQrUrl.value = await makeQr(invoiceData.pr)
+    startLnCountdown()
+  } catch (e) {
+    console.error('[BitcoinPayment] LNURL-pay error:', e)
+    lnInvoiceError.value = true
+    // Keep the fallback plain-address QR
+  } finally {
+    lnInvoiceLoading.value = false
+  }
+}
+
+// Trigger invoice fetch when user navigates to the Lightning tab
+watch(
+  activeTab,
+  (tab) => {
+    if (tab === 'lightning' && !lnInvoicePr.value && !lnInvoiceLoading.value) {
+      if (import.meta.client) fetchLnInvoice()
+    }
+  }
+)
 
 // ─── QR helper ───────────────────────────────────────────────────────────────
 async function makeQr(content: string): Promise<string> {
@@ -497,9 +431,7 @@ async function makeQr(content: string): Promise<string> {
 // ─── Copy helper ─────────────────────────────────────────────────────────────
 const copied = reactive<Record<string, boolean>>({
   onchainCopied: false,
-  invoiceCopied: false,
   lnAddressCopied: false,
-  bolt12Copied: false,
 })
 
 async function copyText(text: string, key: string) {
@@ -516,34 +448,38 @@ function formatEur(n: number) {
 }
 
 // ─── Contact form ─────────────────────────────────────────────────────────────
+const showForm = ref(false)
+const submitted = ref(false)
 const form = reactive({ name: '', email: '', note: '' })
-const errors = reactive({ name: false, email: false })
+const emailTouched = ref(false)
+
+const isEmailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
 
 function submitForm() {
-  errors.name = !form.name.trim()
-  errors.email = !form.email.trim()
-  if (errors.name || errors.email) return
+  emailTouched.value = true
+  if (!isEmailValid.value) return
 
   const payMethod = activeTab.value === 'lightning'
-    ? `Lightning (${lnSubTab.value.toUpperCase()})`
+    ? 'Lightning (BOLT11)'
     : 'On-chain'
   const subject = encodeURIComponent(
     props.type === 'course'
-      ? `[Corso Bitcoin] Conferma pagamento ${payMethod} - ${form.name}`
-      : `[Consulenza Bitcoin] Conferma pagamento ${payMethod} - ${form.name}`
+      ? `[Corso Bitcoin] Conferma pagamento ${payMethod} - ${form.email}`
+      : `[Consulenza Bitcoin] Conferma pagamento ${payMethod} - ${form.email}`
   )
   const body = encodeURIComponent(
-    `Nome: ${form.name}\nEmail: ${form.email}\nImporto EUR: €${props.amountEur}` +
+    (form.name.trim() ? `Nome: ${form.name}\n` : '') +
+    `Email: ${form.email}\nImporto EUR: €${props.amountEur}` +
     (btcAmount.value ? `\nImporto BTC: ${btcAmount.value} BTC (${satsAmount.value} sat)` : '') +
     `\nMetodo: ${payMethod}` +
     (activeTab.value === 'onchain'
       ? `\nIndirizzo: ${props.btcAddress}`
-      : lnSubTab.value === 'bolt11' && lnInvoice.value
-        ? `\nInvoice: ${lnInvoice.value}`
-        : `\nLightning Address: ${props.lightningAddress}`) +
+      : `\nLightning Address: ${props.lightningAddress}`) +
     (form.note ? `\n\nNote:\n${form.note}` : '')
   )
   window.location.href = `mailto:${props.ownerEmail}?subject=${subject}&body=${body}`
+  submitted.value = true
+  showForm.value = false
 }
 
 // ─── Lifecycle ────────────────────────────────────────────────────────────────
@@ -552,7 +488,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  if (lnCountdownTimer) clearInterval(lnCountdownTimer)
+  clearLnCountdown()
 })
 
 watch(() => props.btcAddress, () => {
@@ -630,36 +566,6 @@ watch(() => props.btcAddress, () => {
   color: var(--text-dark);
 }
 
-/* Lightning sub-tabs */
-.bitcoin-payment__subtabs {
-  display: flex;
-  gap: 0;
-  margin-bottom: 1.25rem;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-}
-.bitcoin-payment__subtab {
-  flex: 1;
-  padding: 0.55rem 0.75rem;
-  background: var(--light-gray);
-  border: none;
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--gray);
-  transition: background 0.2s, color 0.2s;
-}
-.bitcoin-payment__subtab:not(:last-child) { border-right: 1px solid var(--border-color); }
-.bitcoin-payment__subtab.active {
-  background: #f7931a33;
-  color: var(--bitcoin-orange);
-}
-.bitcoin-payment__subtab:not(.active):hover {
-  background: var(--border-color);
-  color: var(--text-dark);
-}
-
 /* Info banners */
 .bitcoin-payment__ln-info {
   font-size: 0.85rem;
@@ -708,9 +614,6 @@ watch(() => props.btcAddress, () => {
   align-items: center;
   justify-content: center;
   background: var(--light-gray);
-}
-.bitcoin-payment__qr-placeholder--error {
-  border-color: #e53e3e;
 }
 .bitcoin-payment__qr-inner {
   display: flex;
@@ -782,6 +685,9 @@ watch(() => props.btcAddress, () => {
   margin: 0;
 }
 .bitcoin-payment__address-value {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: monospace;
   font-size: 0.9rem;
   word-break: break-all;
@@ -799,6 +705,27 @@ watch(() => props.btcAddress, () => {
 .bitcoin-payment__address-value--muted { color: var(--gray); cursor: default; font-size: 0.85rem; }
 .bitcoin-payment__address-value--muted:hover { border-color: var(--border-color); }
 
+.bitcoin-payment__address-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.bitcoin-payment__copy-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding-left: 0.5rem;
+  color: var(--gray);
+  transition: color 0.2s;
+}
+.bitcoin-payment__address-value:hover .bitcoin-payment__copy-icon {
+  color: var(--bitcoin-orange);
+}
+.bitcoin-payment__copy-icon--done {
+  color: #38a169 !important;
+}
+
 .bitcoin-payment__copied { font-size: 0.8rem; color: #38a169; font-weight: 600; }
 .bitcoin-payment__rate { font-size: 0.8rem; color: var(--gray); margin-top: 0.25rem; }
 .bitcoin-payment__rate-time { font-style: italic; }
@@ -810,7 +737,49 @@ watch(() => props.btcAddress, () => {
 .bitcoin-payment__steps li { padding: 0.3rem 0; }
 
 /* Form */
-.bitcoin-payment__form { border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 0.5rem; }
+.bitcoin-payment__form { padding-top: 1.5rem; margin-top: 0.5rem; }
+
+/* Toggle button */
+.bitcoin-payment__form-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: 1.5px solid var(--bitcoin-orange);
+  border-radius: 8px;
+  color: var(--bitcoin-orange);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+}
+.bitcoin-payment__form-toggle:hover {
+  background: var(--bitcoin-orange);
+  color: #fff;
+}
+.bitcoin-payment__form-toggle-chevron {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+.bitcoin-payment__form-toggle-chevron--open {
+  transform: rotate(180deg);
+}
+
+/* Success message */
+.bitcoin-payment__form-success {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  background: #f0fff4;
+  border: 1.5px solid #38a169;
+  border-radius: 8px;
+  color: #276749;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
 .bitcoin-payment__form-title { font-size: 1.1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 1rem; }
 .bitcoin-payment__field { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.3rem; }
 .bitcoin-payment__field label { font-size: 0.9rem; font-weight: 600; color: var(--text-dark); }
@@ -830,6 +799,22 @@ watch(() => props.btcAddress, () => {
 .bitcoin-payment__field textarea:focus { outline: none; border-color: var(--bitcoin-orange); }
 .bitcoin-payment__field input.input-error { border-color: #e53e3e; }
 .field-error { font-size: 0.8rem; color: #e53e3e; }
+
+.bitcoin-payment__contact-note {
+  font-size: 0.85rem;
+  color: var(--gray);
+  background: var(--light-gray);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  border-left: 3px solid var(--bitcoin-orange);
+}
+
+.book-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
 
 @media (max-width: 600px) {
   .bitcoin-payment__qr-address { flex-direction: column; align-items: center; }

@@ -7,13 +7,18 @@
     "logo": "₿ Roberto Cedolin",
     "about": "About",
     "consultations": "Consultations",
+    "donation": "Donate",
     "contact": "Contact"
   },
   "hero": {
     "title": "Software Development & Bitcoin Education",
+    "titleLine1": "Understand Bitcoin",
+    "titleLine2": "from someone who actually studies it",
     "subtitle": "Software Engineer | Bitcoin Enthusiast | Content Creator",
     "description": "Passionate software developer with a deep interest in Bitcoin technology.\nI create content and provide education to help people understand Bitcoin and its potential.",
-    "cta": "Book a Consultation"
+    "cta": "Book a Consultation",
+    "ctaSecondary": "Explore courses",
+    "credentialBadge": "Bitcoin Edu Veneto · since 2024"
   },
   "about": {
     "title": "About Me",
@@ -28,48 +33,94 @@
       "bitcoinFundamentals": "Bitcoin Fundamentals",
       "blockchainTechnology": "Blockchain Technology",
       "financialTechnology": "Financial Technology"
-    }
+    },
+    "whyTitle": "Why learn from me",
+    "why": [
+      { "text": "I'm a software developer: I understand Bitcoin from the code, not just the theory" },
+      { "text": "I explain in plain language, without unnecessary jargon" },
+      { "text": "I have hands-on experience with wallets, Bitcoin nodes and Lightning Network" },
+      { "text": "I went from zero to educator in a few years — I know the journey from the inside" }
+    ],
+    "timelineTitle": "My journey",
+    "timeline": [
+      { "year": "Jun 2020", "text": "Started career as a software developer" },
+      { "year": "Dec 2020", "text": "First discovery of Bitcoin" },
+      { "year": "Jul 2021", "text": "Deep dive into Bitcoin study" },
+      { "year": "Dec 2024", "text": "Launched courses with Bitcoin Edu Veneto" },
+      { "year": "Jun 2025", "text": "Started educational content on social media" }
+    ]
   },
   "consultations": {
-    "title": "Book a Consultation",
-    "subtitle": "Get personalized guidance on Bitcoin education, learning paths, and understanding the technology",
+    "title": "1:1 Consultations",
+    "subtitle": "Private video sessions built around what you actually need — not a fixed programme.",
     "cards": {
-      "quick": {
-        "title": "Quick Session",
-        "duration": "30 minutes",
-        "price": "€40",
-        "features": {
-          "f1": "Bitcoin fundamentals",
-          "f2": "Quick questions",
-          "f3": "Learning guidance",
-          "f4": "Educational resources"
-        },
-        "button": {
-          "default": "Book 30min Session",
-          "processing": "Processing..."
-        }
-      },
       "deep": {
-        "title": "Deep Dive",
-        "duration": "60 minutes",
+        "title": "60 minutes",
         "price": "€70",
+        "originalPrice": "€80",
         "features": {
-          "f1": "In-depth Bitcoin education",
-          "f2": "Comprehensive learning plan",
-          "f3": "Technology deep dive",
-          "f4": "Bitcoin use cases & strategy",
-          "f5": "Best practices & security basics"
+          "f1": "Room to explore a topic properly",
+          "f2": "Adapted to your level and goals",
+          "f3": "Questions, doubts, thinking it through together",
+          "f4": "Pointers on how to carry on after"
         },
         "button": {
           "default": "Book 60min Session",
           "processing": "Processing..."
         }
+      },
+      "extended": {
+        "title": "3 hours",
+        "price": "€180",
+        "originalPrice": "€210",
+        "badge": "Most complete",
+        "features": {
+          "f1": "Enough time to actually go deep on a subject",
+          "f2": "Structure built around you before the session",
+          "f3": "Pace and content calibrated to where you are",
+          "f4": "Concrete next steps from where we leave off"
+        },
+        "button": {
+          "default": "Book 3-hour Session",
+          "processing": "Processing..."
+        }
       }
     },
     "whatToExpect": {
-      "title": "What to expect:",
-      "text": "After payment, you'll be redirected to schedule your consultation via Calendly. Sessions are conducted via video call, and you'll receive a confirmation email with all the details."
+      "title": "How it works:",
+      "text": "After payment, pick a date and time on Calendly. The session is via video call — you can let me know beforehand what you want to focus on."
     }
+  },
+  "socialProof": {
+    "metrics": [
+      { "value": "1,100", "label": "TikTok followers" },
+      { "value": "397", "label": "Instagram followers" },
+      { "value": "38", "label": "YouTube subscribers" },
+      { "value": "2024", "label": "Bitcoin Edu Veneto" }
+    ]
+  },
+  "testimonials": [],
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Write to me directly or find me on social. I reply to every message.",
+    "socialTitle": "Follow me & reach out",
+    "formTitle": "Send me a message",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Choose the reason for your enquiry",
+    "subjects": {
+      "sponsorship": "Sponsorship enquiry",
+      "consultation": "Consultation request",
+      "courses": "Course information",
+      "other": "Other"
+    },
+    "emailLabel": "Your email",
+    "emailPlaceholder": "name{'@'}example.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Write your message here...",
+    "sendButton": "Send message",
+    "sending": "Sending...",
+    "sendError": "Something went wrong. Please try again in a moment.",
+    "successMessage": "Message sent! I'll get back to you as soon as possible."
   },
   "footer": {
     "rights": "© 2026 Roberto Cedolin - Software Developer & Bitcoin Educator. All rights reserved.",
@@ -88,7 +139,7 @@
   "courses": {
     "nav": "Courses",
     "sectionTitle": "Courses",
-    "sectionSubtitle": "Learn Bitcoin from the ground up with practical, up-to-date courses",
+    "sectionSubtitle": "Live 1:1 sessions via video call — pace and topics adapt to where you are",
     "listingTitle": "All Courses",
     "listingSubtitle": "Bitcoin learning paths for every level",
     "modules": "modules",
@@ -101,14 +152,22 @@
       "module": "Module",
       "paymentTitle": "Choose your payment method",
       "orPayWith": "or pay with card",
-      "duration": "~10 hours total",
+      "duration": "~7.5 hours total",
+      "durationAdvanced": "~15 hours total",
       "format": "Format",
       "formatValue": "Live 1-on-1 sessions via video call",
       "level": "Level",
       "levelValue": "Beginner — no prior knowledge required",
       "includes": "What's included",
       "includesList": {
-        "0": "5 modules, ~2 hours each",
+        "0": "5 modules, ~1.5 hours each",
+        "1": "Live sessions with Roberto via video call",
+        "2": "Slides and reference materials for each module",
+        "3": "Personal Q&A throughout the course",
+        "4": "Access to recordings after each session"
+      },
+      "includesListAdvanced": {
+        "0": "10 modules, ~1.5 hours each",
         "1": "Live sessions with Roberto via video call",
         "2": "Slides and reference materials for each module",
         "3": "Personal Q&A throughout the course",
@@ -120,33 +179,124 @@
         "1": "People who have heard about Bitcoin but want to truly understand it",
         "2": "Anyone who wants a solid foundation before buying or using Bitcoin",
         "3": "Professionals who want to understand Bitcoin for strategic or investment reasons"
-      }
+      },
+      "price2": "€800"
     },
-    "introduzioneBitcoin": {
-      "title": "Introduction to Bitcoin",
-      "description": "A complete journey through Bitcoin: from history and philosophy to practical use, security, and legal aspects. Perfect for beginners who want a solid, self-sovereign understanding.",
+    "corsoBase": {
+      "title": "Bitcoin Base Course",
+      "description": "Five lessons to take you from zero to real, independent use of Bitcoin. Every session is 1:1, live on video call — we go at your pace, on what actually matters to you.",
       "modules": {
         "m1": {
-          "title": "Introduction to Bitcoin",
-          "description": "History, philosophy, financial sovereignty and why it matters."
+          "title": "Why Bitcoin Exists",
+          "description": "The problem with today's money: inflation, loss of purchasing power, trust vs mathematics. The 2008 crisis, the genesis block, Bitcoin as a response."
         },
         "m2": {
-          "title": "How the Blockchain Works",
-          "description": "Nodes, transactions, cryptography and decentralization."
+          "title": "How Bitcoin Works (without unnecessary jargon)",
+          "description": "Blockchain explained simply, transactions, miners and security, decentralisation, the 21-million supply cap."
         },
         "m3": {
-          "title": "Mining and Consensus",
-          "description": "Proof of Work, halving, monetary policy and security."
+          "title": "Wallets and Custody",
+          "description": "Custodial vs non-custodial, seed phrase, types of wallet. Practical: install a wallet and receive your first sats."
         },
         "m4": {
-          "title": "Wallets and Security",
-          "description": "Hot/cold wallets, seed phrase, backup and best practices."
+          "title": "Actually Using Bitcoin (on-chain + Lightning)",
+          "description": "On-chain vs Lightning, fees and times, when to use which. Practical: send sats and make your first real Lightning transaction."
         },
         "m5": {
-          "title": "Buy, Sell, Use",
-          "description": "Exchanges, P2P, fees, basic taxation and legal aspects."
+          "title": "Buying, Security and Mindset",
+          "description": "How to buy Bitcoin (exchange vs P2P), 'not your keys, not your coins', mistakes to avoid, long-term mindset."
         }
-      }
+      },
+      "faq": [
+        {
+          "q": "Do I need technical knowledge to take this course?",
+          "a": "No, the course is designed for complete beginners. Everything starts from first principles and each concept is explained with practical examples — nothing is taken for granted."
+        },
+        {
+          "q": "How are the sessions structured?",
+          "a": "Every session is 1:1 on video call with Roberto. Before we start you can tell me what you want to focus on — the pace and content adapt to you."
+        },
+        {
+          "q": "What happens after payment?",
+          "a": "You will be contacted within 24 hours to agree on dates and times. You will receive materials and slides before each session."
+        },
+        {
+          "q": "Can I buy just a few sessions?",
+          "a": "The course is sold as a complete 5-module path. If you prefer a more flexible approach, you can consider an individual consultation instead."
+        },
+        {
+          "q": "Is a refund available?",
+          "a": "Yes, a full refund is available if requested before the first session. Once the course has started, refunds are not available for sessions already delivered."
+        }
+      ]
+    },
+    "approfondimentoBitcoin": {
+      "title": "Advanced Bitcoin Course",
+      "description": "Ten lessons to take you from user to genuinely competent in Bitcoin. 1:1 sessions via video call — from the technical to the practical, at your pace.",
+      "modules": {
+        "m1": {
+          "title": "Review + Advanced Mental Model",
+          "description": "UTXO model (cash analogy), Bitcoin layers, security/scalability trade-offs."
+        },
+        "m2": {
+          "title": "Advanced Wallets with Sparrow",
+          "description": "Sparrow Wallet in depth, coin control, fee management, change addresses. Real hands-on practice."
+        },
+        "m3": {
+          "title": "Privacy on Bitcoin",
+          "description": "Pseudonymity vs anonymity, KYC vs no-KYC, basic coinjoin, address reuse, XPUB risks."
+        },
+        "m4": {
+          "title": "Advanced Security",
+          "description": "Metal backups, multisig (concepts), air-gapped setups with Tails OS, common attacks."
+        },
+        "m5": {
+          "title": "Lightning Network Deep Dive",
+          "description": "Channels, liquidity, routing, custodial vs self-custodial Lightning."
+        },
+        "m6": {
+          "title": "Running Your Own Node",
+          "description": "Full node, Bitcoin Core, electrs. Why to do it and how — from theory to hands-on experience."
+        },
+        "m7": {
+          "title": "Fees, Mempool and Optimisation",
+          "description": "How the mempool works, fee market, RBF/CPFP, UTXO consolidation."
+        },
+        "m8": {
+          "title": "Advanced Buying and P2P Strategies",
+          "description": "P2P (Vexl and others), privacy vs convenience, DCA vs lump sum, accumulation strategies."
+        },
+        "m9": {
+          "title": "Economic Aspects and Bitcoin Cycles",
+          "description": "Halving, market cycles, narrative vs reality."
+        },
+        "m10": {
+          "title": "Full Setup + Real Simulation",
+          "description": "Complete user setup (wallet, backup, basic privacy) + simulation: buy → move → pay → hold."
+        }
+      },
+      "faq": [
+        {
+          "q": "Do I need to have taken the base course first?",
+          "a": "It is not required, but having a basic understanding of Bitcoin is recommended. The first module does a thorough recap to ensure you have solid foundations before going deeper."
+        },
+        {
+          "q": "Is this course suitable for developers?",
+          "a": "Yes, the course covers both the technical side (cryptography, scripts, Lightning Network) and the practical side (security, custody, tax aspects). Ideal for those with a technical background who want to go deep on Bitcoin specifically."
+        },
+        {
+          "q": "How long is each session?",
+          "a": "Each session is around 1.5 hours. The pace and duration can vary depending on the topics and your needs — the format is flexible."
+        },
+        {
+          "q": "Do I receive materials between sessions?",
+          "a": "Yes, each module includes slides, notes and further reading resources. You also have access to session recordings to revisit the concepts."
+        },
+        {
+          "q": "Can I request a refund?",
+          "a": "A full refund is available if requested before the first session. Once the course has started, refunds are not available for sessions already delivered."
+        }
+      ]
     }
   },
   "bitcoinPayment": {
@@ -167,26 +317,18 @@
     "tabLightning": "Lightning",
     "lightning": {
       "subTabLnAddress": "Lightning Address",
-      "subTabBolt11": "BOLT11 Invoice",
       "subTabBolt12": "BOLT12 Offer",
       "addressLabel": "Lightning Address",
       "bolt12Label": "BOLT12 Offer (reusable)",
       "bolt12Info": "BOLT12 is a reusable offer — your wallet generates a unique invoice automatically each time. Compatible with Phoenix ≥ 3.0, Zeus, Mutiny.",
+      "bolt12AmountNote": "Enter this amount in your wallet:",
+      "invoiceGenerating": "Generating invoice…",
+      "invoiceExpires": "Expires in",
+      "invoiceRefresh": "Regenerate invoice",
+      "invoiceError": "Could not generate invoice. Check your connection and try again.",
       "bolt12Unavailable": "No BOLT12 offer configured.",
-      "bolt11Label": "BOLT11 Invoice (static)",
-      "bolt11Warning": "This invoice is static and may expire. For future payments use Lightning Address or BOLT12.",
-      "invoiceLabel": "Invoice (BOLT11)",
-      "fetchingInvoice": "Generating Lightning invoice...",
-      "invoiceError": "Could not generate invoice. Please try again.",
-      "invoiceErrorDetail": "The Lightning server is currently unreachable.",
-      "retryInvoice": "Retry",
-      "copyInvoice": "Copy invoice",
       "copyValue": "Copy",
       "copied": "Copied!",
-      "invoiceCopied": "Invoice copied!",
-      "expires": "Expires in",
-      "seconds": "seconds",
-      "expired": "Invoice expired — click Retry",
       "instructions": {
         "title": "How to pay with Lightning:",
         "step1": "Choose your preferred method from the three tabs above",
@@ -212,11 +354,15 @@
       "notePlaceholder": "Transaction ID, message or other info",
       "submit": "Send Confirmation",
       "nameRequired": "Name is required",
-      "emailRequired": "Email is required"
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "contactNote": "After sending, you will be contacted within 48 hours at the email address you provided.",
+      "toggle": "I've paid — send confirmation",
+      "submitted": "Confirmation sent! We'll get back to you within 48 hours."
     }
   },
   "stripePayment": {
-    "label": "Pay by card",
+    "label": "Pay with card",
     "button": "Pay with card",
     "processing": "Redirecting...",
     "error": "An error occurred. Please try again.",
@@ -295,7 +441,7 @@
     "title": "Terms of Service",
     "services": {
       "title": "Services Offered",
-      "text": "Roberto Cedolin offers Bitcoin education consultations (30-minute sessions at €40) and online courses (\"Introduction to Bitcoin\" at €400). Services are delivered remotely via video call or digital content."
+      "text": "Roberto Cedolin offers Bitcoin education consultations (30-minute sessions at €40, 60-minute sessions at €70, and intensive 3-hour sessions at €180) and online courses (\"Introduction to Bitcoin\" at €400). Services are delivered remotely via video call or digital content."
     },
     "payments": {
       "title": "Payments",
@@ -324,6 +470,63 @@
     "contact": {
       "title": "Contact",
       "text": "For any questions regarding these terms: roberto.cedo{'@'}gmail.com"
+    }
+  },
+  "checkout": {
+    "title": "Complete your purchase",
+    "subtitle": "You are one step away from accessing the course",
+    "orderSummary": "Order summary",
+    "form": {
+      "email": "Email",
+      "emailPlaceholder": "your{'@'}email.com",
+      "emailError": "Please enter a valid email address",
+      "privacy": "I have read and accept the",
+      "privacyLink": "Privacy Policy",
+      "privacyRequired": "You must accept the privacy policy to proceed"
+    },
+    "payCard": "Pay with card",
+    "payBitcoin": "Pay with Bitcoin",
+    "summary": {
+      "includes": "What's included"
+    }
+  },
+  "donation": {
+    "title": "Support the project",
+    "subtitle": "If this content has helped you, you can support me with a free donation. Every contribution counts.",
+    "amountLabel": "Amount (optional)",
+    "amountPlaceholder": "e.g. 10",
+    "customLabel": "Custom",
+    "presets": ["5 €", "10 €", "25 €", "50 €"],
+    "paypal": {
+      "title": "PayPal",
+      "label": "Donate via PayPal",
+      "btn": "Open PayPal"
+    },
+    "revolut": {
+      "title": "Revolut",
+      "label": "Donate via Revolut",
+      "btn": "Open Revolut"
+    },
+    "onchain": {
+      "title": "Bitcoin on-chain",
+      "label": "Bitcoin Address",
+      "copied": "Copied!",
+      "qrNote": "Scan or copy the address"
+    },
+    "lightning": {
+      "title": "Lightning",
+      "addressLabel": "Lightning Address",
+      "bolt12Label": "BOLT12 Offer",
+      "invoiceLabel": "BOLT11 Invoice",
+      "copied": "Copied!",
+      "copyBtn": "Copy",
+      "invoiceGenerating": "Generating invoice…",
+      "invoiceError": "Error generating invoice. Please try again.",
+      "invoiceRefresh": "New invoice",
+      "invoiceExpires": "Expires in",
+      "tabAddress": "Lightning Address",
+      "tabBolt12": "BOLT12",
+      "tabBolt11": "BOLT11 Invoice"
     }
   }
 }

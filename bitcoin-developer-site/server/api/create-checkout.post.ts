@@ -9,6 +9,10 @@ const PRODUCTS: Record<string, { name: string; description: string }> = {
     name: 'Consulenza Bitcoin - 60 minuti',
     description: 'Sessione esperta su Bitcoin: wallet, nodi, privacy. Durata: 60 minuti.',
   },
+  'consultation-3h': {
+    name: 'Consulenza Bitcoin - 3 ore',
+    description: 'Sessione intensiva su Bitcoin: percorso completo, approfondimento tecnico, wallet, nodi, privacy e strategia. Durata: 3 ore.',
+  },
   'course-introduzione-bitcoin': {
     name: 'Corso: Introduzione a Bitcoin',
     description: 'Percorso completo su Bitcoin: storia, blockchain, mining, wallet, uso pratico. 5 moduli.',

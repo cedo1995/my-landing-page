@@ -13,6 +13,7 @@
             @click="closeMenu"
           >{{ $t('courses.nav') }}</NuxtLink>
         </li>
+        <li><NuxtLink :to="localePath('/') + '#donation'" @click="closeMenu">{{ $t('nav.donation') }}</NuxtLink></li>
         <li><NuxtLink :to="localePath('/') + '#contact'" @click="closeMenu">{{ $t('nav.contact') }}</NuxtLink></li>
       </ul>
 

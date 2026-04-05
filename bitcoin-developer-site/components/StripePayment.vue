@@ -1,6 +1,5 @@
 <template>
   <div class="stripe-payment">
-    <p class="stripe-payment__label">{{ $t('stripePayment.label') }}</p>
     <button
       class="stripe-payment__button"
       :disabled="loading"
@@ -32,7 +31,10 @@ const error = ref(false)
 
 const PAYMENT_LINKS: Record<string, string> = {
   'consultation-30min': 'https://buy.stripe.com/cNiaEX5usbAveKC0oN9EI00',
+  'consultation-60min': 'https://buy.stripe.com/aFa3cv6ywcEz7iab3r9EI03',
+  'consultation-3h': 'https://buy.stripe.com/14AcN5cWUgUPdGyc7v9EI02',
   'course-introduzione-bitcoin': 'https://buy.stripe.com/3cI9AT5us1ZV6e6gnL9EI01',
+  'course-approfondimento-bitcoin': 'https://buy.stripe.com/dRmaEX5us0VRcCudbz9EI04',
 }
 
 const paymentLink = computed(() => {
