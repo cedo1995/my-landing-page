@@ -1,13 +1,16 @@
 export default defineNuxtRouteMiddleware((to) => {
   if (to.path !== '/') return
 
+  const isProd = process.env.NODE_ENV === 'production'
+  const redirectCode = isProd ? 301 : 302
+
   // rispetta preferenza utente
   const pref = useCookie<string>('site_locale', { sameSite: 'lax' })
   if (pref.value === 'it' || pref.value === 'en') {
-    return navigateTo(`/${pref.value}`, { redirectCode: 302 })
+    return navigateTo(`/${pref.value}`, { redirectCode })
   }
 
-  // header “country” (dipende dal provider)
+  // header "country" (dipende dal provider)
   const h = useRequestHeaders([
     'cf-ipcountry',          // Cloudflare
     'x-vercel-ip-country',   // Vercel
@@ -24,5 +27,5 @@ export default defineNuxtRouteMiddleware((to) => {
   const target = country === 'IT' ? 'it' : 'en'
   pref.value = target
 
-  return navigateTo(`/${target}`, { redirectCode: 302 })
+  return navigateTo(`/${target}`, { redirectCode })
 })

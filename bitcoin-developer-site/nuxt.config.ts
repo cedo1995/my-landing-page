@@ -22,8 +22,9 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/i18n'],
   i18n: {
-    strategy: 'prefix_except_default',
+    strategy: 'prefix',
     defaultLocale: 'it',
+    baseUrl: 'https://robertocedolin.com',
     langDir: 'locales/',
     locales: [
       { code: 'it', name: 'Italiano', language: 'it-IT', file: 'it.json' },
