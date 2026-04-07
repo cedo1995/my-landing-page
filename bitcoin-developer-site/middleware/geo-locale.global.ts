@@ -7,6 +7,13 @@ export default defineNuxtRouteMiddleware((to) => {
   // rispetta preferenza utente
   const pref = useCookie<string>('site_locale', { sameSite: 'lax' })
   if (pref.value === 'it' || pref.value === 'en') {
+    // On server side use h3 sendRedirect to ensure correct HTTP status code
+    if (import.meta.server) {
+      const event = useRequestEvent()
+      if (event) {
+        return sendRedirect(event, `/${pref.value}`, redirectCode)
+      }
+    }
     return navigateTo(`/${pref.value}`, { redirectCode })
   }
 
@@ -27,5 +34,12 @@ export default defineNuxtRouteMiddleware((to) => {
   const target = country === 'IT' ? 'it' : 'en'
   pref.value = target
 
+  // On server side use h3 sendRedirect to ensure correct HTTP status code
+  if (import.meta.server) {
+    const event = useRequestEvent()
+    if (event) {
+      return sendRedirect(event, `/${target}`, redirectCode)
+    }
+  }
   return navigateTo(`/${target}`, { redirectCode })
 })
