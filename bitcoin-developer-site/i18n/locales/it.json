@@ -18,7 +18,7 @@
     "description": "Sviluppatore software con una forte passione per la tecnologia Bitcoin.\nCreo contenuti e offro formazione per aiutare le persone a comprendere Bitcoin e il suo potenziale.",
     "cta": "Prenota una consulenza",
     "ctaSecondary": "Scopri i corsi",
-    "credentialBadge": "Bitcoin Edu Veneto · dal 2024"
+    "credentialBadge": "Docente Bitcoin dal 2024"
   },
   "about": {
     "title": "Chi sono",
@@ -85,18 +85,14 @@
           "processing": "Elaborazione..."
         }
       }
-    },
-    "whatToExpect": {
-      "title": "Come funziona:",
-      "text": "Dopo il pagamento scegli data e orario su Calendly. La sessione si svolge in videochiamata — prima di iniziare puoi indicarmi su cosa vuoi concentrarti."
     }
   },
   "socialProof": {
     "metrics": [
-      { "value": "1.099", "label": "follower su TikTok" },
-      { "value": "397", "label": "follower su Instagram" },
+      { "value": "1.100+", "label": "follower su TikTok" },
+      { "value": "398", "label": "follower su Instagram" },
       { "value": "38", "label": "iscritti su YouTube" },
-      { "value": "2024", "label": "Bitcoin Edu Veneto" }
+      { "value": "2024", "label": "Docente dal 2024" }
     ]
   },
   "testimonials": [],
@@ -137,8 +133,8 @@
     }
   },
   "courses": {
-    "nav": "Corsi",
-    "sectionTitle": "Corsi",
+    "nav": "Corsi 1:1",
+    "sectionTitle": "Corsi 1:1",
     "sectionSubtitle": "Sessioni live 1:1 in videochiamata — il ritmo e gli argomenti si adattano a dove sei tu",
     "listingTitle": "Tutti i corsi",
     "listingSubtitle": "Percorsi formativi su Bitcoin per ogni livello",
@@ -184,7 +180,7 @@
     },
     "corsoBase": {
       "title": "Corso base su Bitcoin",
-      "description": "Cinque lezioni per passare da zero all'uso reale di Bitcoin in autonomia. Ogni sessione è 1:1, dal vivo in videochiamata — si procede al ritmo tuo, su ciò che ti interessa davvero.",
+      "description": "Cinque lezioni per passare da zero all'uso reale di Bitcoin in autonomia. Ogni sessione è 1:1, dal vivo in videochiamata — si procede al tuo ritmo, su ciò che ti interessa davvero.",
       "modules": {
         "m1": {
           "title": "Perché Bitcoin esiste",
@@ -232,7 +228,7 @@
     },
     "approfondimentoBitcoin": {
       "title": "Corso approfondito su Bitcoin",
-      "description": "Dieci lezioni per passare da utente a persona davvero competente su Bitcoin. Sessioni 1:1 in videochiamata — dalla tecnica alla pratica, al ritmo tuo.",
+      "description": "Dieci lezioni per passare da utente a persona davvero competente su Bitcoin. Sessioni 1:1 in videochiamata — dalla tecnica alla pratica, al tuo ritmo.",
       "modules": {
         "m1": {
           "title": "Ripasso + modello mentale avanzato",

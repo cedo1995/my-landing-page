@@ -150,13 +150,6 @@
             />
           </div>
         </div>
-
-        <div style="margin-top: 3rem; text-align: center; color: #666;">
-          <p><strong>{{ t('consultations.whatToExpect.title') }}</strong></p>
-          <p style="margin-top: 1rem;">
-            {{ t('consultations.whatToExpect.text') }}
-          </p>
-        </div>
       </div>
     </section>
 

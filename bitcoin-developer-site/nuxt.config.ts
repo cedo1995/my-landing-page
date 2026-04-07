@@ -20,7 +20,13 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  modules: ['@nuxtjs/i18n'],
+  modules: ['@nuxtjs/i18n', '@nuxtjs/sitemap'],
+
+  site: {
+    url: 'https://robertocedolin.com',
+    name: 'Roberto Cedolin'
+  },
+
   i18n: {
     strategy: 'prefix',
     defaultLocale: 'it',

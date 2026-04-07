@@ -18,7 +18,7 @@
     "description": "Passionate software developer with a deep interest in Bitcoin technology.\nI create content and provide education to help people understand Bitcoin and its potential.",
     "cta": "Book a Consultation",
     "ctaSecondary": "Explore courses",
-    "credentialBadge": "Bitcoin Edu Veneto · since 2024"
+    "credentialBadge": "Bitcoin Professor · since 2024"
   },
   "about": {
     "title": "About Me",
@@ -85,10 +85,6 @@
           "processing": "Processing..."
         }
       }
-    },
-    "whatToExpect": {
-      "title": "How it works:",
-      "text": "After payment, pick a date and time on Calendly. The session is via video call — you can let me know beforehand what you want to focus on."
     }
   },
   "socialProof": {
@@ -96,7 +92,7 @@
       { "value": "1,100", "label": "TikTok followers" },
       { "value": "397", "label": "Instagram followers" },
       { "value": "38", "label": "YouTube subscribers" },
-      { "value": "2024", "label": "Bitcoin Edu Veneto" }
+      { "value": "2024", "label": "Bitcoin Professor since 2024" }
     ]
   },
   "testimonials": [],
@@ -137,8 +133,8 @@
     }
   },
   "courses": {
-    "nav": "Courses",
-    "sectionTitle": "Courses",
+    "nav": "Courses 1:1",
+    "sectionTitle": "Courses 1:1",
     "sectionSubtitle": "Live 1:1 sessions via video call — pace and topics adapt to where you are",
     "listingTitle": "All Courses",
     "listingSubtitle": "Bitcoin learning paths for every level",
