@@ -22,8 +22,8 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/i18n'],
   i18n: {
-    strategy: 'prefix',
-    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    defaultLocale: 'it',
     langDir: 'locales/',
     locales: [
       { code: 'it', name: 'Italiano', language: 'it-IT', file: 'it.json' },
