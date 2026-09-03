@@ -8,17 +8,19 @@
     "about": "Chi sono",
     "consultations": "Consulenze",
     "donation": "Donazioni",
-    "contact": "Contatti"
+    "contact": "Contatti",
+    "closeMenu": "Chiudi menu",
+    "openMenu": "Apri menu"
   },
   "hero": {
-    "title": "Sviluppo Software & Educazione su Bitcoin",
-    "titleLine1": "Capire Bitcoin",
-    "titleLine2": "da chi lo studia davvero",
-    "subtitle": "Software Engineer | Appassionato di Bitcoin | Content Creator",
-    "description": "Sviluppatore software con una forte passione per la tecnologia Bitcoin.\nCreo contenuti e offro formazione per aiutare le persone a comprendere Bitcoin e il suo potenziale.",
+    "title": "Impara Bitcoin con chi lo vive davvero",
+    "titleLine1": "Impara Bitcoin",
+    "titleLine2": "con chi lo vive davvero.",
+    "subtitle": "Consulenze 1:1, corsi pratici e guide per chi vuole capire davvero — senza tecnicismi inutili.",
+    "description": "Sono Roberto, sviluppatore software e bitcoiner da anni. Aiuto i principianti a capire Bitcoin partendo da zero, con un linguaggio chiaro e un approccio pratico.",
     "cta": "Prenota una consulenza",
-    "ctaSecondary": "Scopri i corsi",
-    "credentialBadge": "Docente Bitcoin dal 2024"
+    "ctaSecondary": "Vedi i corsi",
+    "credentialBadge": "Sviluppatore software · Educator Bitcoin · Docente dal 2024"
   },
   "about": {
     "title": "Chi sono",
@@ -89,10 +91,10 @@
   },
   "socialProof": {
     "metrics": [
-      { "value": "1.100+", "label": "follower su TikTok" },
-      { "value": "398", "label": "follower su Instagram" },
-      { "value": "38", "label": "iscritti su YouTube" },
-      { "value": "2024", "label": "Docente dal 2024" }
+      { "value": "20+", "label": "studenti seguiti" },
+      { "value": "5+", "label": "anni su Bitcoin" },
+      { "value": "100%", "label": "soddisfazione dichiarata" },
+      { "value": "1:1", "label": "sessioni personalizzate" }
     ]
   },
   "testimonials": [],
@@ -132,6 +134,9 @@
       "terms": "Termini di Servizio"
     }
   },
+  "faq": {
+    "title": "Domande frequenti"
+  },
   "courses": {
     "nav": "Corsi 1:1",
     "sectionTitle": "Corsi 1:1",
@@ -142,14 +147,24 @@
     "buyButton": "Acquista il corso",
     "viewDetails": "Scopri il corso",
     "backToList": "← Tutti i corsi",
+    "teaser": {
+      "badge": "Corso Bitcoin",
+      "whatYouLearn": "Cosa impari",
+      "format": "Formato",
+      "formatValue": "5 sessioni 1:1 in videochiamata",
+      "duration": "Durata",
+      "durationValue": "60 min × 5 sessioni",
+      "price": "Prezzo",
+      "guarantee": "Soddisfatto o rimborsato nei primi 15 minuti"
+    },
     "detail": {
       "price": "€400",
       "whatYouLearn": "Cosa imparerai",
       "module": "Modulo",
       "paymentTitle": "Scegli il metodo di pagamento",
       "orPayWith": "oppure paga con carta",
-      "duration": "~7.5 ore totali",
-      "durationAdvanced": "~15 ore totali",
+      "duration": "~7h 30min totali",
+      "durationAdvanced": "~15h totali",
       "format": "Formato",
       "formatValue": "Sessioni live 1 a 1 in videochiamata",
       "level": "Livello",
@@ -354,8 +369,11 @@
       "emailInvalid": "Inserisci un indirizzo email valido",
       "contactNote": "Dopo l'invio sarai contattato entro 48 ore all'indirizzo mail che hai indicato.",
       "toggle": "Ho pagato — invia conferma",
-      "submitted": "Conferma inviata! Ti contatteremo entro 48 ore."
-    }
+      "submitted": "Conferma inviata! Ti contatteremo entro 48 ore.",
+      "sending": "Invio in corso...",
+      "error": "Si è verificato un errore durante l'invio. Riprova tra qualche istante."
+    },
+    "copyAddress": "Copia indirizzo"
   },
   "stripePayment": {
     "label": "Paga con carta",
@@ -373,6 +391,8 @@
       "logo": "₿ Bitcoin Developer"
     },
     "title": "Pagamento completato con successo!",
+    "invalidTitle": "Pagamento non verificato",
+    "invalidMessage": "Non è stato possibile verificare il pagamento. Se hai completato il pagamento, controlla la tua email o contattaci.",
     "message": "Grazie per aver prenotato una consulenza. Il tuo pagamento è stato elaborato correttamente.",
     "messageCourse": "Grazie per aver acquistato il corso. Il tuo pagamento è stato elaborato correttamente.",
     "nextSteps": {
@@ -484,6 +504,176 @@
     "payBitcoin": "Paga con Bitcoin",
     "summary": {
       "includes": "Cosa include"
+    }
+  },
+  "problemSolution": {
+    "title": "Il problema e la soluzione",
+    "problemTitle": "Il problema",
+    "problems": [
+      { "text": "Bitcoin sembra complicato e non sai da dove iniziare" },
+      { "text": "Hai paura di fare errori e perdere soldi" },
+      { "text": "Online trovi solo guide tecniche o gente che vuole venderti qualcosa" }
+    ],
+    "solutionTitle": "La soluzione",
+    "solutions": [
+      { "text": "Ti spiego tutto con parole semplici, partendo da zero" },
+      { "text": "Ho un approccio pratico: impari facendo, non solo studiando" },
+      { "text": "Sono indipendente: il mio unico interesse è che tu capisca davvero" }
+    ]
+  },
+  "howItWorks": {
+    "title": "Come funziona",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Scegli il formato",
+        "text": "Consulenza 1:1 da 60 minuti o 3 ore, oppure il corso completo in 5 sessioni. Tutto in videochiamata, al tuo ritmo."
+      },
+      {
+        "number": "2",
+        "title": "Prenota e paga",
+        "text": "Scegli il metodo di pagamento che preferisci: carta o Bitcoin. Ti ricontatto entro 24 ore per concordare data e orario."
+      },
+      {
+        "number": "3",
+        "title": "Impara davvero",
+        "text": "Sessione 1:1 focalizzata su quello che ti serve. Domande, dubbi, pratica. Alla fine sai esattamente cosa fare."
+      }
+    ]
+  },
+  "urgency": {
+    "consultationsNote": "Posti limitati: agenda aperta per le prossime 2 settimane.",
+    "guarantee": "Soddisfatti o rimborsati entro 15 min dall'inizio della sessione."
+  },
+  "finalCta": {
+    "headline": "Pronto a iniziare?",
+    "subheadline": "Prenota la tua consulenza o inizia con un corso. Un passo alla volta.",
+    "ctaLabel": "Prenota ora",
+    "ctaLabelCourse": "Vedi il corso"
+  },
+  "consulenza": {
+    "seo": {
+      "title": "Consulenza Bitcoin 1:1 — Roberto Cedolin",
+      "description": "Sessioni private in videochiamata per capire Bitcoin senza confusione. Risposte dirette, linguaggio chiaro, approccio pratico."
+    },
+    "hero": {
+      "headline": "Hai domande su Bitcoin? Ti rispondo io, in chiaro.",
+      "subheadline": "Una sessione 1:1 per uscire dalla confusione e capire cosa fare davvero con i tuoi soldi.",
+      "cta": "Vedi i prezzi"
+    },
+    "painPoints": {
+      "title": "Per chi è questa consulenza",
+      "items": [
+        { "text": "Non sai da dove iniziare con Bitcoin" },
+        { "text": "Hai paura di sbagliare e perdere soldi" },
+        { "text": "Ogni guida che trovi online è troppo tecnica o vuole venderti qualcosa" }
+      ]
+    },
+    "whatYouGet": {
+      "title": "Cosa ottieni dalla sessione",
+      "items": [
+        { "text": "Risposte dirette alle tue domande, senza gergo inutile" },
+        { "text": "Un piano chiaro per i tuoi prossimi passi con Bitcoin" },
+        { "text": "Registrazione della sessione inclusa (su richiesta)" }
+      ]
+    },
+    "credibility": {
+      "title": "Chi sono",
+      "text": "Sono Roberto, sviluppatore software e bitcoiner dal 2020. Dal 2024 insegno Bitcoin in corsi 1:1 e attraverso i miei contenuti online. Non vendo token, non faccio trading: studio e spiego Bitcoin per quello che è davvero.",
+      "stats": {
+        "years": "anni su Bitcoin",
+        "students": "studenti seguiti",
+        "satisfaction": "soddisfazione"
+      }
+    },
+    "faq": [
+      {
+        "q": "Quanto dura una sessione?",
+        "a": "Solitamente le sessioni durano 60 o 90 minuti. La sessione da 60 min è ideale per chi vuole iniziare o per chi ha domande specifiche; quelle da 90 minuti permettono di affrontare un argomento più in profondità."
+      },
+      {
+        "q": "Ho la garanzia di essere rimborsato?",
+        "a": "Sì. Se dopo i primi 15 minuti la consulenza non fa per te, rimborso completo — nessuna domanda."
+      },
+      {
+        "q": "Cosa succede dopo il pagamento?",
+        "a": "Ti ricontatto entro 24 ore per concordare data e orario della lezione."
+      },
+      {
+        "q": "Posso scegliere gli argomenti da trattare?",
+        "a": "Assolutamente sì. Prima della sessione ti chiedo cosa vuoi sapere. La consulenza è costruita seguendo le tue esigenze specifiche."
+      }
+    ],
+    "finalCta": {
+      "headline": "Hai ancora dubbi?",
+      "subheadline": "Prenota una sessione — se dopo 15 minuti non è quello che ti aspettavi, rimborso completo.",
+      "ctaLabel": "Prenota ora"
+    }
+  },
+  "corsoBitcoin": {
+    "seo": {
+      "title": "Corso Bitcoin per Principianti — Roberto Cedolin",
+      "description": "Il corso pratico 1:1 in videochiamata per capire Bitcoin partendo da zero. 5 moduli, al tuo ritmo, con Roberto."
+    },
+    "hero": {
+      "headline": "Capisci Bitcoin una volta per tutte.",
+      "subheadline": "Il corso pratico per principianti che vogliono davvero capire — non solo sentirne parlare.",
+      "cta": "Scopri il corso"
+    },
+    "forWhom": {
+      "title": "Questo corso fa per te se...",
+      "items": [
+        { "text": "Sei curioso di Bitcoin ma non sai da dove iniziare" },
+        { "text": "Hai sentito parlare di Bitcoin e vuoi capire se fa per te" },
+        { "text": "Vuoi investire in modo consapevole, senza affidarti al caso" }
+      ]
+    },
+    "outcomes": {
+      "title": "Cosa imparerai",
+      "items": [
+        { "text": "Cos'è Bitcoin e perché è stato creato" },
+        { "text": "Come comprare i tuoi primi satoshi in modo sicuro" },
+        { "text": "Come funzionano i wallet e le chiavi private" },
+        { "text": "Come difenderti dalle truffe più comuni" }
+      ]
+    },
+    "details": {
+      "title": "Dettagli del corso",
+      "format": "Sessioni live 1:1 in videochiamata",
+      "duration": "5 moduli · ~1h 30min ciascuno · ~7h 30min totali",
+      "price": "€400",
+      "level": "Principiante — nessuna conoscenza pregressa richiesta"
+    },
+    "enrollment": {
+      "title": "Inizia il corso",
+      "subtitle": "Scegli come pagare e ti contatterò entro 24 ore per fissare le date."
+    },
+    "faq": [
+      {
+        "q": "Devo avere conoscenze tecniche per seguire il corso?",
+        "a": "No. Il corso è pensato per chi parte da zero. Ogni concetto viene spiegato con esempi pratici, senza dare nulla per scontato."
+      },
+      {
+        "q": "Come si svolgono le sessioni?",
+        "a": "Ogni sessione è 1:1 in videochiamata con Roberto. Prima di iniziare puoi indicare gli argomenti su cui vuoi concentrarti — il ritmo si adatta a te."
+      },
+      {
+        "q": "Cosa succede dopo il pagamento?",
+        "a": "Ti ricontatto entro 24 ore per concordare date e orari. Riceverai materiali e slide prima di ogni sessione."
+      },
+      {
+        "q": "Posso acquistare solo alcune sessioni?",
+        "a": "Il corso si acquista come percorso completo (5 moduli). Se preferisci qualcosa di più flessibile, puoi valutare una consulenza individuale."
+      },
+      {
+        "q": "C'è una garanzia?",
+        "a": "Sì: rimborso completo se richiesto prima della prima sessione. Una volta iniziato il corso, non è possibile ottenere rimborsi per le sessioni già svolte."
+      }
+    ],
+    "finalCta": {
+      "headline": "Hai domande prima di iniziare?",
+      "subheadline": "Prenota una consulenza gratuita di 15 minuti per capire se il corso fa per te.",
+      "ctaLabel": "Contattami"
     }
   },
   "donation": {

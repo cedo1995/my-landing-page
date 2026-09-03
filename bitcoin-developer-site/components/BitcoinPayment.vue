@@ -28,16 +28,20 @@
     <!-- Main Tabs -->
     <div class="bitcoin-payment__tabs" role="tablist">
       <button
+        id="tab-onchain"
         role="tab"
         :aria-selected="activeTab === 'onchain'"
+        aria-controls="panel-onchain"
         :class="['bitcoin-payment__tab', { active: activeTab === 'onchain' }]"
         @click="setTab('onchain')"
       >
         ⛓ {{ $t('bitcoinPayment.tabOnchain') }}
       </button>
       <button
+        id="tab-lightning"
         role="tab"
         :aria-selected="activeTab === 'lightning'"
+        aria-controls="panel-lightning"
         :class="['bitcoin-payment__tab', { active: activeTab === 'lightning' }]"
         @click="setTab('lightning')"
       >
@@ -46,7 +50,13 @@
     </div>
 
     <!-- ─── ON-CHAIN TAB ─────────────────────────────────────────────────── -->
-    <div v-show="activeTab === 'onchain'" class="bitcoin-payment__panel">
+    <div
+      id="panel-onchain"
+      role="tabpanel"
+      aria-labelledby="tab-onchain"
+      v-show="activeTab === 'onchain'"
+      class="bitcoin-payment__panel"
+    >
       <div class="bitcoin-payment__qr-address">
         <!-- QR: BIP-21 URI with amount when available, else plain address -->
         <div class="bitcoin-payment__qr-wrap">
@@ -70,8 +80,12 @@
         <div class="bitcoin-payment__address-block">
           <p class="bitcoin-payment__address-label">{{ $t('bitcoinPayment.addressLabel') }}</p>
           <div
+            role="button"
+            tabindex="0"
+            :aria-label="$t('bitcoinPayment.copyAddress')"
             class="bitcoin-payment__address-value"
             @click="copyText(btcAddress, 'onchainCopied')"
+            @keydown.enter.space.prevent="copyText(btcAddress, 'onchainCopied')"
           >
             <span class="bitcoin-payment__address-text">{{ btcAddress }}</span>
             <span class="bitcoin-payment__copy-icon" :class="{ 'bitcoin-payment__copy-icon--done': copied.onchainCopied }">
@@ -98,7 +112,13 @@
     </div>
 
     <!-- ─── LIGHTNING TAB ─────────────────────────────────────────────────── -->
-    <div v-show="activeTab === 'lightning'" class="bitcoin-payment__panel">
+    <div
+      id="panel-lightning"
+      role="tabpanel"
+      aria-labelledby="tab-lightning"
+      v-show="activeTab === 'lightning'"
+      class="bitcoin-payment__panel"
+    >
 
       <!-- ── LNAddress panel ── -->
       <div class="bitcoin-payment__subpanel">
@@ -142,8 +162,12 @@
           <div class="bitcoin-payment__address-block">
             <p class="bitcoin-payment__address-label">{{ $t('bitcoinPayment.lightning.addressLabel') }}</p>
             <div
+              role="button"
+              tabindex="0"
+              :aria-label="$t('bitcoinPayment.copyAddress')"
               class="bitcoin-payment__address-value"
               @click="copyText(lightningAddress, 'lnAddressCopied')"
+              @keydown.enter.space.prevent="copyText(lightningAddress, 'lnAddressCopied')"
             >
               <span class="bitcoin-payment__address-text">{{ lightningAddress }}</span>
               <span class="bitcoin-payment__copy-icon" :class="{ 'bitcoin-payment__copy-icon--done': copied.lnAddressCopied }">
@@ -232,7 +256,11 @@
 
       <p class="bitcoin-payment__contact-note">{{ $t('bitcoinPayment.form.contactNote') }}</p>
 
-      <button type="submit" class="book-button" :disabled="!isEmailValid">{{ $t('bitcoinPayment.form.submit') }}</button>
+      <p v-if="formError" class="bitcoin-payment__form-error">{{ $t('bitcoinPayment.form.error') }}</p>
+
+      <button type="submit" class="book-button" :disabled="!isEmailValid || formLoading">
+        {{ formLoading ? $t('bitcoinPayment.form.sending') : $t('bitcoinPayment.form.submit') }}
+      </button>
     </form>
   </div>
 </template>
@@ -248,7 +276,6 @@ const props = defineProps<{
   amountEur: string
   btcAddress: string
   lightningAddress: string
-  ownerEmail: string
 }>()
 
 const { t } = useI18n()
@@ -314,7 +341,7 @@ async function loadPrice() {
     // LN Address QR: fallback plain address (no amount — BOLT11 invoice handles that)
     lnAddressQrUrl.value = await makeQr(`lightning:${props.lightningAddress}`)
   } catch (e) {
-    console.error('[BitcoinPayment] price fetch error:', e)
+    if (import.meta.dev) console.error('[BitcoinPayment] price fetch error:', e)
     priceError.value = true
     // Fall back to address-only QR (no amount available)
     onchainQrDataUrl.value = await makeQr(`bitcoin:${props.btcAddress}`)
@@ -351,13 +378,12 @@ const lnCountdownFormatted = computed(() => {
 })
 
 async function fetchLnInvoice() {
-  // Wait for price if not yet available
-  if (!btcRate.value) {
-    if (!priceLoading.value) await loadPrice()
-    if (!btcRate.value) {
-      lnInvoiceError.value = true
-      return
-    }
+  // Valida amountEur prima di procedere
+  const amountNum = parseFloat(props.amountEur)
+  if (!isFinite(amountNum) || amountNum <= 0) {
+    lnInvoiceError.value = true
+    if (import.meta.dev) console.error('[BitcoinPayment] Invalid amountEur:', props.amountEur)
+    return
   }
 
   lnInvoiceLoading.value = true
@@ -366,43 +392,30 @@ async function fetchLnInvoice() {
   clearLnCountdown()
 
   try {
-    const msats = Math.round((eurValue.value / btcRate.value!) * 1e8) * 1000
+    const data = await $fetch<{ pr: string; msats: number; btcRate: number }>('/api/ln-invoice', {
+      method: 'POST',
+      body: {
+        lightningAddress: props.lightningAddress,
+        amountEur: amountNum,
+      },
+    })
 
-    // 1. LNURL-pay metadata
-    const parts = props.lightningAddress.split('@')
-    if (parts.length !== 2) throw new Error('Invalid Lightning Address')
-    const [username, domain] = parts
-    const meta = await $fetch<{
-      callback: string
-      minSendable: number
-      maxSendable: number
-      tag: string
-      status?: string
-      reason?: string
-    }>(`https://${domain}/.well-known/lnurlp/${username}`)
-
-    if (meta.status === 'ERROR') throw new Error(meta.reason ?? 'LNURL error')
-    if (meta.tag !== 'payRequest') throw new Error('Not a LNURL-pay endpoint')
-    if (msats < meta.minSendable || msats > meta.maxSendable) {
-      throw new Error(`Amount ${msats} msat out of range [${meta.minSendable}, ${meta.maxSendable}]`)
+    lnInvoicePr.value = data.pr
+    // Aggiorna il rate BTC con quello restituito dal server (evita doppia chiamata CoinGecko)
+    if (data.btcRate && !btcRate.value) {
+      btcRate.value = data.btcRate
+      rateTime.value = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
-
-    // 2. Request invoice
-    const sep = meta.callback.includes('?') ? '&' : '?'
-    const invoiceData = await $fetch<{ pr?: string; status?: string; reason?: string }>(
-      `${meta.callback}${sep}amount=${msats}`
-    )
-    if (invoiceData.status === 'ERROR') throw new Error(invoiceData.reason ?? 'Invoice error')
-    if (!invoiceData.pr) throw new Error('No payment request in response')
-
-    lnInvoicePr.value = invoiceData.pr
-    // Generate QR from the BOLT11 payment request
-    lnAddressQrUrl.value = await makeQr(invoiceData.pr)
+    // Genera QR dal payment request BOLT11
+    lnAddressQrUrl.value = await makeQr(data.pr)
     startLnCountdown()
   } catch (e) {
-    console.error('[BitcoinPayment] LNURL-pay error:', e)
+    if (import.meta.dev) console.error('[BitcoinPayment] LN invoice error:', e)
     lnInvoiceError.value = true
-    // Keep the fallback plain-address QR
+    // Mantieni il QR fallback con il Lightning Address plain
+    if (!lnAddressQrUrl.value) {
+      lnAddressQrUrl.value = await makeQr(`lightning:${props.lightningAddress}`)
+    }
   } finally {
     lnInvoiceLoading.value = false
   }
@@ -450,24 +463,24 @@ function formatEur(n: number) {
 // ─── Contact form ─────────────────────────────────────────────────────────────
 const showForm = ref(false)
 const submitted = ref(false)
+const formLoading = ref(false)
+const formError = ref(false)
 const form = reactive({ name: '', email: '', note: '' })
 const emailTouched = ref(false)
 
 const isEmailValid = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
 
-function submitForm() {
+async function submitForm() {
   emailTouched.value = true
   if (!isEmailValid.value) return
 
   const payMethod = activeTab.value === 'lightning'
     ? 'Lightning (BOLT11)'
     : 'On-chain'
-  const subject = encodeURIComponent(
-    props.type === 'course'
-      ? `[Corso Bitcoin] Conferma pagamento ${payMethod} - ${form.email}`
-      : `[Consulenza Bitcoin] Conferma pagamento ${payMethod} - ${form.email}`
-  )
-  const body = encodeURIComponent(
+  const subject = props.type === 'course'
+    ? `[Corso Bitcoin] Conferma pagamento ${payMethod} - ${form.email}`
+    : `[Consulenza Bitcoin] Conferma pagamento ${payMethod} - ${form.email}`
+  const message =
     (form.name.trim() ? `Nome: ${form.name}\n` : '') +
     `Email: ${form.email}\nImporto EUR: €${props.amountEur}` +
     (btcAmount.value ? `\nImporto BTC: ${btcAmount.value} BTC (${satsAmount.value} sat)` : '') +
@@ -476,10 +489,26 @@ function submitForm() {
       ? `\nIndirizzo: ${props.btcAddress}`
       : `\nLightning Address: ${props.lightningAddress}`) +
     (form.note ? `\n\nNote:\n${form.note}` : '')
-  )
-  window.location.href = `mailto:${props.ownerEmail}?subject=${subject}&body=${body}`
-  submitted.value = true
-  showForm.value = false
+
+  formError.value = false
+  formLoading.value = true
+  try {
+    await $fetch('/api/contact', {
+      method: 'POST',
+      body: {
+        subject,
+        email: form.email,
+        message,
+        from_name: form.name.trim() || form.email,
+      },
+    })
+    submitted.value = true
+    showForm.value = false
+  } catch {
+    formError.value = true
+  } finally {
+    formLoading.value = false
+  }
 }
 
 // ─── Lifecycle ────────────────────────────────────────────────────────────────
@@ -779,6 +808,16 @@ watch(() => props.btcAddress, () => {
   color: #276749;
   font-size: 0.92rem;
   font-weight: 600;
+}
+
+.bitcoin-payment__form-error {
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  background: #fff5f5;
+  border: 1.5px solid #e53e3e;
+  border-radius: 8px;
+  color: #c53030;
+  font-size: 0.88rem;
 }
 .bitcoin-payment__form-title { font-size: 1.1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 1rem; }
 .bitcoin-payment__field { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.3rem; }

@@ -16,7 +16,6 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
   type: 'consultation' | 'course'
@@ -25,7 +24,6 @@ const props = defineProps<{
   slug?: string       // solo per corsi: es. 'introduzione-bitcoin'
 }>()
 
-const { t } = useI18n()
 const loading = ref(false)
 const error = ref(false)
 
@@ -44,16 +42,23 @@ const paymentLink = computed(() => {
   return PAYMENT_LINKS[key] ?? null
 })
 
+let loadingTimeout: ReturnType<typeof setTimeout> | null = null
+
 function checkout() {
   if (!paymentLink.value || loading.value) return
-  if (!paymentLink.value) {
-    error.value = true
-    return
-  }
   loading.value = true
   error.value = false
+  // Reset loading after 5s in case redirect fails
+  loadingTimeout = setTimeout(() => {
+    loading.value = false
+    error.value = true
+  }, 5000)
   window.location.href = paymentLink.value
 }
+
+onUnmounted(() => {
+  if (loadingTimeout) clearTimeout(loadingTimeout)
+})
 </script>
 
 <style scoped>

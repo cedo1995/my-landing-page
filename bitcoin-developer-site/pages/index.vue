@@ -13,12 +13,12 @@
           </p>
           <span class="hero__badge">{{ t('hero.credentialBadge') }}</span>
           <div class="hero__ctas">
-            <a href="#consultations" class="cta-button">{{ t('hero.cta') }}</a>
-            <a href="#courses" class="cta-button cta-button--secondary">{{ t('hero.ctaSecondary') }}</a>
+            <NuxtLink :to="localePath('/consulenza')" class="cta-button">{{ t('hero.cta') }}</NuxtLink>
+            <NuxtLink :to="localePath('/corso-bitcoin')" class="cta-button cta-button--secondary">{{ t('hero.ctaSecondary') }}</NuxtLink>
           </div>
         </div>
         <div class="hero__photo">
-          <img src="/profile.jpg" alt="Roberto Cedolin" class="hero-profile-photo" />
+          <img src="/profile.jpg" alt="Roberto Cedolin" class="hero-profile-photo" fetchpriority="high" width="280" height="280" />
         </div>
       </div>
     </section>
@@ -39,53 +39,28 @@
       </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
+    <!-- Problem / Solution -->
+    <section class="problem-solution">
       <div class="container">
-        <h2>{{ t('about.title') }}</h2>
-
-        <div class="about-body">
-          <!-- Left column: text + why -->
-          <div class="about-text">
-            <p>{{ t('about.text') }}</p>
-            <p>{{ t('about.content') }}</p>
-
-            <!-- Why learn from me -->
-            <h3 class="about-subheading">{{ t('about.whyTitle') }}</h3>
-            <ul class="about-why">
-              <li v-for="(item, i) in (tm('about.why') as any[])" :key="i">
-                <span class="about-why__icon">✓</span>
+        <h2 class="problem-solution__title">{{ t('problemSolution.title') }}</h2>
+        <div class="problem-solution__grid">
+          <div class="problem-solution__col problem-solution__col--problem">
+            <h3 class="problem-solution__col-title">{{ t('problemSolution.problemTitle') }}</h3>
+            <ul class="problem-solution__list">
+              <li v-for="(item, i) in (tm('problemSolution.problems') as any[])" :key="i">
+                <span class="problem-solution__icon problem-solution__icon--problem">✗</span>
                 <span>{{ rt(item.text) }}</span>
               </li>
             </ul>
           </div>
-
-          <!-- Right column: timeline + skills -->
-          <div class="about-timeline">
-            <h3 class="about-subheading">{{ t('about.timelineTitle') }}</h3>
-            <div class="timeline">
-              <div
-                v-for="(item, i) in (tm('about.timeline') as any[])"
-                :key="i"
-                class="timeline__item"
-              >
-                <div class="timeline__dot"></div>
-                <div class="timeline__content">
-                  <div class="timeline__year">{{ rt(item.year) }}</div>
-                  <div class="timeline__text">{{ rt(item.text) }}</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="skills">
-              <span class="skill-tag">{{ t('about.skills.softwareDevelopment') }}</span>
-              <span class="skill-tag">{{ t('about.skills.bitcoinEducation') }}</span>
-              <span class="skill-tag">{{ t('about.skills.contentCreation') }}</span>
-              <span class="skill-tag">{{ t('about.skills.technicalEducation') }}</span>
-              <span class="skill-tag">{{ t('about.skills.bitcoinFundamentals') }}</span>
-              <span class="skill-tag">{{ t('about.skills.blockchainTechnology') }}</span>
-              <span class="skill-tag">{{ t('about.skills.financialTechnology') }}</span>
-            </div>
+          <div class="problem-solution__col problem-solution__col--solution">
+            <h3 class="problem-solution__col-title">{{ t('problemSolution.solutionTitle') }}</h3>
+            <ul class="problem-solution__list">
+              <li v-for="(item, i) in (tm('problemSolution.solutions') as any[])" :key="i">
+                <span class="problem-solution__icon problem-solution__icon--solution">✓</span>
+                <span>{{ rt(item.text) }}</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -118,9 +93,8 @@
                :price="70"
                duration="60min"
                amountEur="70"
-               btcAddress="bc1qv0dpmn5ec4kkzsl458p0zmq25yyr55fjmhp3w8"
-               lightningAddress="whitepatch439@walletofsatoshi.com"
-               ownerEmail="roberto.cedo@gmail.com"
+               :btcAddress="PAYMENT_CONFIG.btcAddress"
+               :lightningAddress="PAYMENT_CONFIG.lightningAddress"
             />
           </div>
 
@@ -144,37 +118,62 @@
               :price="180"
               duration="3h"
               amountEur="180"
-              btcAddress="bc1qv0dpmn5ec4kkzsl458p0zmq25yyr55fjmhp3w8"
-              lightningAddress="whitepatch439@walletofsatoshi.com"
-              ownerEmail="roberto.cedo@gmail.com"
+              :btcAddress="PAYMENT_CONFIG.btcAddress"
+              :lightningAddress="PAYMENT_CONFIG.lightningAddress"
             />
           </div>
+        </div>
+        <div class="consultations-more">
+          <p class="urgency-note">{{ t('urgency.consultationsNote') }}</p>
+          <p class="urgency-guarantee">{{ t('urgency.guarantee') }}</p>
+          <NuxtLink :to="localePath('/consulenza')" class="consultations-more__link">
+            {{ t('courses.viewDetails') }} →
+          </NuxtLink>
         </div>
       </div>
     </section>
 
-    <!-- Courses Section -->
-    <section id="courses" class="courses-home">
-      <div class="container">
-        <h2>{{ t('courses.sectionTitle') }}</h2>
-        <p class="courses-home__subtitle">{{ t('courses.sectionSubtitle') }}</p>
-
-        <div class="courses-home__grid">
-          <div
-            v-for="course in courses"
-            :key="course.slug"
-            class="course-card-home"
-          >
-            <div class="course-card-home__badge">Bitcoin</div>
-            <h3 class="course-card-home__title">{{ t(course.titleKey) }}</h3>
-            <p class="course-card-home__description">{{ t(course.descriptionKey) }}</p>
-            <div class="course-card-home__meta">
-              <span class="course-card-home__modules">{{ course.moduleKeys.length }} {{ t('courses.modules') }}</span>
-              <span class="course-card-home__price">{{ course.price }}</span>
+    <!-- Courses teaser -->
+    <section class="courses-teaser">
+      <div class="container courses-teaser__inner">
+        <div class="courses-teaser__text">
+          <div class="courses-teaser__badge">{{ t('courses.teaser.badge') }}</div>
+          <h2 class="courses-teaser__title">{{ t('courses.corsoBase.title') }}</h2>
+          <p class="courses-teaser__desc">{{ t('courses.corsoBase.description') }}</p>
+          <div class="courses-teaser__meta">
+            <span class="courses-teaser__price">{{ t('courses.detail.price') }}</span>
+            <span class="courses-teaser__modules">5 {{ t('courses.modules') }}</span>
+          </div>
+          <NuxtLink :to="localePath('/corso-bitcoin')" class="cta-button courses-teaser__cta">
+            {{ t('courses.viewDetails') }}
+          </NuxtLink>
+        </div>
+        <div class="courses-teaser__card">
+          <div class="courses-teaser__card-header">
+            <span class="courses-teaser__card-label">{{ t('courses.teaser.whatYouLearn') }}</span>
+          </div>
+          <ul class="courses-teaser__list">
+            <li v-for="(item, i) in (tm('corsoBitcoin.outcomes.items') as any[])" :key="i">
+              <span class="courses-teaser__icon">✓</span>
+              <span>{{ rt(item.text) }}</span>
+            </li>
+          </ul>
+          <div class="courses-teaser__card-details">
+            <div class="courses-teaser__card-detail">
+              <span class="courses-teaser__card-detail-label">{{ t('courses.teaser.format') }}</span>
+              <span class="courses-teaser__card-detail-value">{{ t('courses.teaser.formatValue') }}</span>
             </div>
-            <NuxtLink :to="localePath(`/courses/${course.slug}`)" class="book-button" style="display:block; text-align:center; text-decoration:none;">
-              {{ t('courses.viewDetails') }}
-            </NuxtLink>
+            <div class="courses-teaser__card-detail">
+              <span class="courses-teaser__card-detail-label">{{ t('courses.teaser.duration') }}</span>
+              <span class="courses-teaser__card-detail-value">{{ t('courses.teaser.durationValue') }}</span>
+            </div>
+            <div class="courses-teaser__card-detail">
+              <span class="courses-teaser__card-detail-label">{{ t('courses.teaser.price') }}</span>
+              <span class="courses-teaser__card-detail-value courses-teaser__card-price">{{ t('courses.detail.price') }}</span>
+            </div>
+          </div>
+          <div class="courses-teaser__card-guarantee">
+            &#x1F6E1; {{ t('courses.teaser.guarantee') }}
           </div>
         </div>
       </div>
@@ -198,20 +197,13 @@
       </div>
     </section>
 
-    <!-- Donation Section -->
-    <section id="donation" class="donation-section">
-      <div class="container">
-        <h2 class="donation-section__title">{{ t('donation.title') }}</h2>
-        <p class="donation-section__subtitle">{{ t('donation.subtitle') }}</p>
-        <DonationSection
-          bolt12Offer="lno1pgqppmsrse80qf0aara4slvcjxrvu6j2rp5ftmjy4yntlsmsutpkvkt6878s8yk758zckejhqdky37cvwjzn6j42erhgtgrqudx20peerqlkmxhdqgpq8nh5f6t86vc8yc6yl4stfptx90fw968ak2x9vtumnhtkku0rxqcqx0c890tx2csnhamqp94vc5jldythzdka66v6g950l3lhvaj5xy7wufckahvjn0wr2kqgsz9snpz6qedeatqs8y0dcscl6svgdlsqpwqxjgu9yucrrv0jqad7vd8375j628fcj3jzqqeqk88qrtlqhu3uq9fnc67hrnzp5h45we5vmu3ll3aalxz0q06eudxvt0fsu49av2xma3c76uvwwhvcxvkq"
-          btcAddress="bc1qv0dpmn5ec4kkzsl458p0zmq25yyr55fjmhp3w8"
-          lightningAddress="whitepatch439@walletofsatoshi.com"
-          paypalHandle="@familycedolin"
-          revolutHandle="@cedhousedj"
-        />
-      </div>
-    </section>
+    <!-- Final CTA -->
+    <FinalCTA
+      :headline="t('finalCta.headline')"
+      :subheadline="t('finalCta.subheadline')"
+      :cta-label="t('finalCta.ctaLabel')"
+      :cta-href="localePath('/consulenza')"
+    />
 
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
@@ -289,8 +281,16 @@
                 />
               </div>
               <p v-if="contactError" class="contact-form__error">{{ t('contact.sendError') }}</p>
-              <!-- honeypot anti-spam -->
-              <input type="checkbox" name="botcheck" style="display:none" />
+              <!-- honeypot anti-spam: visually hidden text field; bots fill it, humans don't -->
+              <input
+                v-model="contactHoneypot"
+                type="text"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+                style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"
+              />
               <button type="submit" class="cta-button contact-form__submit" :disabled="!contactFormValid || contactLoading">
                 {{ contactLoading ? t('contact.sending') : t('contact.sendButton') }}
               </button>
@@ -327,11 +327,10 @@
 
 <script setup lang="ts">
 import { useLocalePath } from '#i18n'
-import { useCourses } from '~/composables/useCourses'
+import { PAYMENT_CONFIG } from '~/config/payment'
 
 const { t, tm, rt } = useI18n()
 const localePath = useLocalePath()
-const { courses } = useCourses()
 
 const testimonials = computed(() => tm('testimonials') as Array<{text: string, author: string, context: string}>)
 
@@ -339,6 +338,7 @@ const testimonials = computed(() => tm('testimonials') as Array<{text: string, a
 const contactSubject = ref('')
 const contactEmail = ref('')
 const contactMessage = ref('')
+const contactHoneypot = ref('')
 const contactLoading = ref(false)
 const contactError = ref(false)
 const contactSuccess = ref(false)
@@ -359,26 +359,20 @@ async function sendContactForm() {
     : t('contact.subjectPlaceholder')
 
   try {
-    const res = await fetch('https://api.web3forms.com/submit', {
+    await $fetch('/api/contact', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({
-        access_key: '76d98037-a194-47bc-ab8d-8cdd58af9d0a',
+      body: {
         subject: subjectLabel,
         email: contactEmail.value,
         message: contactMessage.value,
-        from_name: contactEmail.value,
-      }),
+        honeypot: contactHoneypot.value,
+      },
     })
-    const data = await res.json()
-    if (data.success) {
-      contactSuccess.value = true
-      contactSubject.value = ''
-      contactEmail.value = ''
-      contactMessage.value = ''
-    } else {
-      contactError.value = true
-    }
+    contactSuccess.value = true
+    contactSubject.value = ''
+    contactEmail.value = ''
+    contactMessage.value = ''
+    contactHoneypot.value = ''
   } catch {
     contactError.value = true
   } finally {
@@ -484,13 +478,6 @@ onMounted(() => {
   display: block;
 }
 
-/* Hide about-image on desktop since photo is already in hero */
-@media (min-width: 900px) {
-  :deep(.about-image) {
-    display: none;
-  }
-}
-
 /* Tablet: shrink photo */
 @media (max-width: 1024px) and (min-width: 900px) {
   .hero-profile-photo {
@@ -525,138 +512,104 @@ onMounted(() => {
   }
 }
 
-/* ── About: two-column layout ── */
-.about-body {
+/* ── Problem / Solution ── */
+.problem-solution {
+  padding: 5rem 0;
+  background: var(--light-bg);
+}
+
+.problem-solution__title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--text-dark);
+}
+
+.problem-solution__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: start;
+  gap: 3rem;
 }
 
-/* ── About: subheading ── */
-.about-subheading {
-  font-size: var(--text-xl, 1.25rem);
-  font-weight: var(--font-bold, 700);
+.problem-solution__col {
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.problem-solution__col--problem {
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.problem-solution__col--solution {
+  background: rgba(247, 147, 26, 0.06);
+  border: 1px solid rgba(247, 147, 26, 0.25);
+}
+
+.problem-solution__col-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
   color: var(--text-dark);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
 }
 
-/* ── About: why list ── */
-.about-why {
+.problem-solution__list {
   list-style: none;
   padding: 0;
-  margin: 0 0 1.5rem;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.85rem;
 }
 
-.about-why li {
+.problem-solution__list li {
   display: flex;
   align-items: flex-start;
-  gap: 0.6rem;
-  font-size: 1rem;
+  gap: 0.65rem;
+  font-size: 0.97rem;
   line-height: 1.6;
+  color: var(--text-dark);
 }
 
-.about-why__icon {
-  color: var(--bitcoin-orange);
+.problem-solution__icon {
   font-weight: 700;
   font-size: 1rem;
   flex-shrink: 0;
   margin-top: 0.1rem;
 }
 
-/* ── About: timeline (vertical, right column) ── */
-.about-timeline {
-  padding-left: 1rem;
-  border-left: 2px solid rgba(247, 147, 26, 0.2);
+.problem-solution__icon--problem {
+  color: #ef4444;
 }
 
-.about-timeline .about-subheading {
-  margin-top: 0;
-}
-
-.about-timeline .skills {
-  margin-top: 1.75rem;
-}
-
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.timeline__item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  position: relative;
-  padding-bottom: 1.75rem;
-}
-
-.timeline__item:last-child {
-  padding-bottom: 0;
-}
-
-.timeline__dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--bitcoin-orange);
-  border: 2px solid white;
-  box-shadow: 0 0 0 2px var(--bitcoin-orange);
-  flex-shrink: 0;
-  margin-top: 0.25rem;
-  margin-left: -1.45rem;
-}
-
-.timeline__content {
-  flex: 1;
-}
-
-.timeline__year {
-  font-size: 0.78rem;
-  font-weight: 700;
+.problem-solution__icon--solution {
   color: var(--bitcoin-orange);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.2rem;
 }
 
-.timeline__text {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: var(--text-dark);
-}
-
-/* Mobile: stack columns */
 @media (max-width: 768px) {
-  .about-body {
+  .problem-solution__grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
   }
+}
 
-  .about-timeline {
-    border-left: none;
-    border-top: 2px solid rgba(247, 147, 26, 0.2);
-    padding-left: 0;
-    padding-top: 1.5rem;
-  }
+/* ── Consultations more link ── */
+.consultations-more {
+  text-align: center;
+  margin-top: 2rem;
+}
 
-  .about-timeline .about-subheading {
-    margin-top: 1rem;
-  }
+.consultations-more__link {
+  color: var(--bitcoin-orange);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
 
-  .timeline {
-    padding-left: 1.5rem;
-    border-left: 2px solid rgba(247, 147, 26, 0.2);
-  }
-
-  .timeline__dot {
-    margin-left: -1.6rem;
-  }
+.consultations-more__link:hover {
+  border-bottom-color: var(--bitcoin-orange);
 }
 
 /* ── Social Proof Bar ── */
@@ -756,123 +709,181 @@ onMounted(() => {
   }
 }
 
-/* ── Courses section on homepage ── */
-.courses-home {
-  padding: 5rem 0;
-  background-color: var(--light-bg);
+/* ── Urgency notes ── */
+.urgency-note {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--bitcoin-orange);
+  margin: 0 0 0.25rem;
 }
 
-.courses-home h2 {
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  color: var(--text-dark);
-}
-
-.courses-home__subtitle {
-  text-align: center;
+.urgency-guarantee {
+  font-size: 0.9rem;
   color: var(--gray);
-  margin-bottom: 3rem;
-  font-size: 1.1rem;
+  margin: 0 0 1rem;
 }
 
-.courses-home__grid {
+/* ── Courses teaser ── */
+.courses-teaser {
+  padding: 5rem 0;
+  background: var(--dark-bg);
+  color: var(--text-light);
+}
+
+.courses-teaser__inner {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2rem;
-  max-width: 900px;
-  margin: 0 auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
 }
 
-.course-card-home {
-  background: var(--light-bg);
-  border-radius: 15px;
-  padding: 2rem;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  border: 2px solid var(--border-color);
-  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-}
-
-.course-card-home:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  border-color: var(--bitcoin-orange);
-}
-
-.course-card-home__badge {
+.courses-teaser__badge {
   display: inline-block;
-  background: rgba(247, 147, 26, 0.12);
+  background: rgba(247, 147, 26, 0.15);
   color: var(--bitcoin-orange);
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  padding: 0.3rem 0.8rem;
+  padding: 0.3rem 0.85rem;
   border-radius: 20px;
-  width: fit-content;
-}
-
-.course-card-home__title {
-  font-size: 1.5rem;
-  color: var(--text-dark);
-  margin: 0;
-}
-
-.course-card-home__description {
-  color: var(--gray);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  flex: 1;
-}
-
-.course-card-home__meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid var(--border-color);
-  padding-top: 1rem;
-}
-
-.course-card-home__modules {
-  font-size: 0.9rem;
-  color: var(--gray);
-}
-
-.course-card-home__price {
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: var(--bitcoin-orange);
-}
-
-@media (max-width: 768px) {
-  .courses-home__grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ── Donation Section ── */
-.donation-section {
-  padding: 5rem 0;
-  background: var(--light-bg);
-}
-
-.donation-section__title {
-  font-size: 2.5rem;
-  text-align: center;
-  color: var(--text-dark);
+  border: 1px solid rgba(247, 147, 26, 0.4);
   margin-bottom: 1rem;
 }
 
-.donation-section__subtitle {
-  text-align: center;
-  color: var(--gray);
-  max-width: 600px;
-  margin: 0 auto 3rem;
-  font-size: 1.05rem;
-  line-height: 1.6;
+.courses-teaser__title {
+  font-size: 2rem;
+  color: var(--text-light);
+  margin: 0 0 1rem;
+}
+
+.courses-teaser__desc {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.7;
+  margin: 0 0 1.5rem;
+}
+
+.courses-teaser__meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.courses-teaser__price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--bitcoin-orange);
+}
+
+.courses-teaser__modules {
+  font-size: 0.95rem;
+  color: #aaa;
+}
+
+.courses-teaser__cta {
+  display: inline-block;
+}
+
+.courses-teaser__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.courses-teaser__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #ddd;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.courses-teaser__icon {
+  color: var(--bitcoin-orange);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.courses-teaser__card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.courses-teaser__card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.courses-teaser__card-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bitcoin-orange);
+}
+
+.courses-teaser__card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 1.1rem;
+}
+
+.courses-teaser__card-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.courses-teaser__card-detail-label {
+  font-size: 0.85rem;
+  color: #888;
+  flex-shrink: 0;
+}
+
+.courses-teaser__card-detail-value {
+  font-size: 0.9rem;
+  color: #ddd;
+  text-align: right;
+}
+
+.courses-teaser__card-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--bitcoin-orange);
+}
+
+.courses-teaser__card-guarantee {
+  font-size: 0.82rem;
+  color: #aaa;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 1rem;
+}
+
+@media (max-width: 900px) {
+  .courses-teaser__inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
 }
 
 /* ── Contact Section ── */

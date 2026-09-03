@@ -92,9 +92,8 @@
               <BitcoinPayment
                 type="course"
                 :amountEur="String(course.price)"
-                btcAddress="bc1qv0dpmn5ec4kkzsl458p0zmq25yyr55fjmhp3w8"
-                lightningAddress="whitepatch439@walletofsatoshi.com"
-                ownerEmail="roberto.cedo@gmail.com"
+                :btcAddress="PAYMENT_CONFIG.btcAddress"
+                :lightningAddress="PAYMENT_CONFIG.lightningAddress"
               />
             </div>
 
@@ -138,6 +137,7 @@ import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useLocalePath } from '#i18n'
+import { PAYMENT_CONFIG } from '~/config/payment'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -216,6 +216,7 @@ function handlePaymentClick(event: MouseEvent) {
 // ─── SEO ──────────────────────────────────────────────────────────────────────
 useHead({
   title: () => `${t('checkout.title')} — ${t(course.titleKey)} | ${t('seo.title')}`,
+  meta: [{ name: 'robots', content: 'noindex, nofollow' }],
 })
 </script>
 

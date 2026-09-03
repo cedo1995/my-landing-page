@@ -42,6 +42,12 @@ export default defineEventHandler(async (event) => {
   }
   const [username, domain] = parts
 
+  // ── SSRF protection: allowlist of permitted domains ────────────────────────
+  const ALLOWED_DOMAINS = ['walletofsatoshi.com', 'getalby.com', 'stacker.news', 'strike.me']
+  if (!ALLOWED_DOMAINS.includes(domain)) {
+    throw createError({ statusCode: 400, message: `Lightning Address domain not allowed: ${domain}` })
+  }
+
   // ── 3. LNURL-pay metadata ──────────────────────────────────────────────────
   const metaUrl = `https://${domain}/.well-known/lnurlp/${username}`
   const meta = await $fetch<{

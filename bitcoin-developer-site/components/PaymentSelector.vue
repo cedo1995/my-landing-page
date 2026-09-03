@@ -48,7 +48,6 @@ const props = defineProps<{
   amountEur: string
   btcAddress: string
   lightningAddress: string
-  ownerEmail: string
 }>()
 
 const selected = ref<'card' | 'bitcoin' | null>(null)
@@ -70,7 +69,6 @@ const bitcoinProps = computed(() => ({
   amountEur: props.amountEur,
   btcAddress: props.btcAddress,
   lightningAddress: props.lightningAddress,
-  ownerEmail: props.ownerEmail,
 }))
 </script>
 

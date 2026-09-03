@@ -4,16 +4,20 @@
       <NuxtLink :to="localePath('/')" class="logo">{{ $t('nav.logo') }}</NuxtLink>
 
       <ul id="nav-links" class="nav-links" :class="{ 'nav-links--open': menuOpen }">
-        <li><NuxtLink :to="localePath('/') + '#about'" @click="closeMenu">{{ $t('nav.about') }}</NuxtLink></li>
-        <li><NuxtLink :to="localePath('/') + '#consultations'" @click="closeMenu">{{ $t('nav.consultations') }}</NuxtLink></li>
         <li>
           <NuxtLink
-            :to="localePath('/courses')"
-            :class="{ 'nav-active': isCoursesActive }"
+            :to="localePath('/consulenza')"
+            :class="{ 'nav-active': isConsulenzaActive }"
+            @click="closeMenu"
+          >{{ $t('nav.consultations') }}</NuxtLink>
+        </li>
+        <li>
+          <NuxtLink
+            :to="localePath('/corso-bitcoin')"
+            :class="{ 'nav-active': isCorsoActive }"
             @click="closeMenu"
           >{{ $t('courses.nav') }}</NuxtLink>
         </li>
-        <li><NuxtLink :to="localePath('/') + '#donation'" @click="closeMenu">{{ $t('nav.donation') }}</NuxtLink></li>
         <li><NuxtLink :to="localePath('/') + '#contact'" @click="closeMenu">{{ $t('nav.contact') }}</NuxtLink></li>
       </ul>
 
@@ -22,7 +26,7 @@
         <button
           class="hamburger"
           :class="{ 'hamburger--open': menuOpen }"
-          :aria-label="menuOpen ? 'Chiudi menu' : 'Apri menu'"
+          :aria-label="menuOpen ? $t('nav.closeMenu') : $t('nav.openMenu')"
           aria-controls="nav-links"
           :aria-expanded="menuOpen"
           @click="toggleMenu"
@@ -45,7 +49,8 @@ const localePath = useLocalePath()
 const route = useRoute()
 const menuOpen = ref(false)
 
-const isCoursesActive = computed(() => route.path.includes('/courses'))
+const isConsulenzaActive = computed(() => route.path.includes('/consulenza'))
+const isCorsoActive = computed(() => route.path.includes('/corso-bitcoin') || route.path.includes('/courses'))
 
 function toggleMenu() {
   menuOpen.value = !menuOpen.value

@@ -2,12 +2,25 @@
   <div class="success-page">
     <header>
       <nav class="container">
-        <a href="/" class="logo">{{ t('success.nav.logo') }}</a>
+        <NuxtLink :to="localePath('/')" class="logo">{{ t('success.nav.logo') }}</NuxtLink>
       </nav>
     </header>
 
     <div class="container success-content">
-      <div class="success-card">
+      <!-- Payment not verified -->
+      <div v-if="paymentInvalid" class="success-card success-card--error">
+        <div class="success-icon success-icon--error">✗</div>
+        <h1>{{ t('success.invalidTitle') }}</h1>
+        <p class="success-message">{{ t('success.invalidMessage') }}</p>
+        <div class="button-group">
+          <NuxtLink :to="localePath('/')" class="secondary-button">
+            {{ t('success.buttons.backHome') }}
+          </NuxtLink>
+        </div>
+      </div>
+
+      <!-- Payment confirmed -->
+      <div v-else class="success-card">
         <div class="success-icon">✓</div>
         <h1>{{ t('success.title') }}</h1>
         <p class="success-message">
@@ -24,12 +37,12 @@
         </div>
 
         <div class="button-group">
-          <a v-if="!isCourse" :href="calendlyUrl" target="_blank" class="cta-button">
+          <a v-if="!isCourse && calendlyUrl" :href="calendlyUrl" target="_blank" class="cta-button">
             {{ t('success.buttons.schedule') }}
           </a>
-          <a href="/" class="secondary-button">
+          <NuxtLink :to="localePath('/')" class="secondary-button">
             {{ t('success.buttons.backHome') }}
-          </a>
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -42,23 +55,36 @@ import { computed } from 'vue'
 const { t, tm } = useI18n()
 const config = useRuntimeConfig()
 const route = useRoute()
+const localePath = useLocalePath()
 
+useHead({
+  meta: [{ name: 'robots', content: 'noindex, nofollow' }],
+})
+
+// ── Verify payment session ────────────────────────────────────────────────────
+const sessionId = route.query.session_id as string | undefined
+const paymentInvalid = ref(false)
+
+if (sessionId) {
+  try {
+    const result = await $fetch<{ paid: boolean }>(`/api/verify-session?session_id=${sessionId}`)
+    if (!result.paid) paymentInvalid.value = true
+  } catch {
+    paymentInvalid.value = true
+  }
+}
+
+// ── Page state ────────────────────────────────────────────────────────────────
 const isCourse = computed(() => route.query.type === 'course')
 
 const calendlyUrl = computed(() => {
-  const baseUrl = config.public.calendlyUrl || 'https://calendly.com'
   const duration = route.query.duration
-
-  if (duration === '30min') {
-    return `${baseUrl}/30min-consultation`
-  } else if (duration === '60min') {
-    return `${baseUrl}/60min-consultation`
-  }
-
-  return baseUrl
+  if (duration === '60min') return config.public.calendly60minUrl || config.public.calendlyUrl
+  if (duration === '3h') return config.public.calendly3hUrl || config.public.calendlyUrl
+  return config.public.calendlyUrl || null
 })
 
-// tm() restituisce il valore raw (array/oggetto), t() restituisce sempre una stringa
+// tm() returns raw array/object, t() always returns string
 const nextSteps = computed(() => {
   const key = isCourse.value ? 'success.nextSteps.itemsCourse' : 'success.nextSteps.items'
   const value = tm(key)
@@ -89,6 +115,10 @@ const nextSteps = computed(() => {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
+.success-card--error {
+  border: 2px solid #e53e3e;
+}
+
 .success-icon {
   width: 80px;
   height: 80px;
@@ -101,6 +131,10 @@ const nextSteps = computed(() => {
   font-size: 3rem;
   margin: 0 auto 2rem;
   animation: scaleIn 0.5s ease-out;
+}
+
+.success-icon--error {
+  background: #e53e3e;
 }
 
 @keyframes scaleIn {
@@ -183,6 +217,23 @@ const nextSteps = computed(() => {
 
 .secondary-button:hover {
   background-color: #d0d0d0;
+}
+
+header {
+  background: #1a1a1a;
+  padding: 1rem 0;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  color: #f7931a;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {
